@@ -10,10 +10,6 @@ export default function Home() {
           size="large"
           sx={{
             mt: 3,
-            backgroundColor: "#6366F1!important", // Initial background color
-            "&:hover": {
-              backgroundColor: "#6366F1", // Color on hover
-            },
           }}
           type="submit"
           variant="contained"
