@@ -5,23 +5,41 @@ import Head from "next/head";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Alert, Box, Button, Stack, Tab, Tabs, TextField, Typography } from "@mui/material";
+import { useRouter } from "next/navigation";
+import { login } from "@/axios";
+
 
 export default function Login(props) {
-  const [method, setMethod] = useState("email");
+  const [method, setMethod] = useState("username");
+  const [loginError, setLoginError] = useState(false);
+  const router = useRouter();
   const formik = useFormik({
     initialValues: {
-      email: "admin@mindflares.com",
+      username: "admin@mindflares.com",
       password: "Password123!",
       submit: null,
     },
     validationSchema: Yup.object({
-      email: Yup.string().email("Must be a valid email").max(255).required("Email is required"),
+      username: Yup.string().max(255).required("Username is required"),
       password: Yup.string().max(255).required("Password is required"),
     }),
     onSubmit: async (values, helpers) => {
       try {
-        // await auth.signIn(values.email, values.password);
-        router.push("/");
+        await login(values.username, values.password)
+          .then((response) => {
+            const token = response.token;
+            localStorage.setItem("token", token);
+            document.cookie = `token=${token}`;
+          })
+          .then(() => {
+            router.push("/dashboard");
+          })
+          .catch((error) => {
+            setLoginError(true);
+            console.log("Login failed: ", error);
+          });
+
+        // await auth.signIn(values.username, values.password);
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
@@ -57,21 +75,21 @@ export default function Login(props) {
               <Typography variant="h4">Login</Typography>
             </Stack>
             <Tabs sx={{ mb: 3 }} value={method}>
-              <Tab label="Email" value="email" />
+              <Tab label="Username" value="username" />
             </Tabs>
-            {method === "email" && (
+            {method === "username" && (
               <form noValidate onSubmit={formik.handleSubmit}>
                 <Stack spacing={3}>
                   <TextField
-                    error={!!(formik.touched.email && formik.errors.email)}
+                    error={!!(formik.touched.username && formik.errors.username)}
                     fullWidth
-                    helperText={formik.touched.email && formik.errors.email}
-                    label="Email Address"
-                    name="email"
+                    helperText={formik.touched.username && formik.errors.username}
+                    label="Username"
+                    name="username"
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
-                    type="email"
-                    value={formik.values.email}
+                    type="username"
+                    value={formik.values.username}
                   />
                   <TextField
                     error={!!(formik.touched.password && formik.errors.password)}
@@ -90,6 +108,11 @@ export default function Login(props) {
                     {formik.errors.submit}
                   </Typography>
                 )}
+                {loginError ? (
+                  <div>
+                    <p className="text-red-500 text-sm mb-0">Wrong credentials</p>
+                  </div>
+                ) : null}
                 <Button fullWidth size="large" sx={{ mt: 3 }} type="submit" variant="contained">
                   Continue
                 </Button>
