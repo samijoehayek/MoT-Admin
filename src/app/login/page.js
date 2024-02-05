@@ -15,7 +15,7 @@ export default function Login(props) {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
-      username: "admin@mindflares.com",
+      username: "User123",
       password: "Password123!",
       submit: null,
     },
