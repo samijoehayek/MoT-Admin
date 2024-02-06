@@ -1,6 +1,6 @@
 "use client";
 import Navbar from "../../components/navbar/navbar";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import Sidenav from "../../components/sidenav/sidenav";
 import { styled } from "@mui/material/styles";
 

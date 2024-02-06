@@ -13,7 +13,7 @@ export default function RootLayout({ children }, props) {
 
   return (
     <html lang="en">
-      <body className="min-h-screen">
+      <body>
         <CacheProvider value={emotionCache}>
           <ThemeProvider theme={theme}>
             <div>{children}</div>
