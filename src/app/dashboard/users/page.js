@@ -154,6 +154,118 @@ export default function Users() {
       name: "Nasimiyu Danai",
       phone: "801-301-7894",
     },
+    {
+      id: "5e887ac47eed253091be10cb",
+      address: {
+        city: "Cleveland",
+        country: "USA",
+        state: "Ohio",
+        street: "2849 Fulton Street",
+      },
+      avatar: "/assets/avatars/avatar-carson-darrin.png",
+      createdAt: "",
+      email: "carson.darrin@devias.io",
+      name: "Carson Darrin",
+      phone: "304-428-3097",
+    },
+    {
+      id: "5e887ac47eed253091be10cb",
+      address: {
+        city: "Cleveland",
+        country: "USA",
+        state: "Ohio",
+        street: "2849 Fulton Street",
+      },
+      avatar: "/assets/avatars/avatar-carson-darrin.png",
+      createdAt: "",
+      email: "carson.darrin@devias.io",
+      name: "Carson Darrin",
+      phone: "304-428-3097",
+    },
+    {
+      id: "5e887ac47eed253091be10cb",
+      address: {
+        city: "Cleveland",
+        country: "USA",
+        state: "Ohio",
+        street: "2849 Fulton Street",
+      },
+      avatar: "/assets/avatars/avatar-carson-darrin.png",
+      createdAt: "",
+      email: "carson.darrin@devias.io",
+      name: "Carson Darrin",
+      phone: "304-428-3097",
+    },
+    {
+      id: "5e887ac47eed253091be10cb",
+      address: {
+        city: "Cleveland",
+        country: "USA",
+        state: "Ohio",
+        street: "2849 Fulton Street",
+      },
+      avatar: "/assets/avatars/avatar-carson-darrin.png",
+      createdAt: "",
+      email: "carson.darrin@devias.io",
+      name: "Carson Darrin",
+      phone: "304-428-3097",
+    },
+    {
+      id: "5e887ac47eed253091be10cb",
+      address: {
+        city: "Cleveland",
+        country: "USA",
+        state: "Ohio",
+        street: "2849 Fulton Street",
+      },
+      avatar: "/assets/avatars/avatar-carson-darrin.png",
+      createdAt: "",
+      email: "carson.darrin@devias.io",
+      name: "Carson Darrin",
+      phone: "304-428-3097",
+    },
+    {
+      id: "5e887ac47eed253091be10cb",
+      address: {
+        city: "Cleveland",
+        country: "USA",
+        state: "Ohio",
+        street: "2849 Fulton Street",
+      },
+      avatar: "/assets/avatars/avatar-carson-darrin.png",
+      createdAt: "",
+      email: "carson.darrin@devias.io",
+      name: "Carson Darrin",
+      phone: "304-428-3097",
+    },
+    {
+      id: "5e887ac47eed253091be10cb",
+      address: {
+        city: "Cleveland",
+        country: "USA",
+        state: "Ohio",
+        street: "2849 Fulton Street",
+      },
+      avatar: "/assets/avatars/avatar-carson-darrin.png",
+      createdAt: "",
+      email: "carson.darrin@devias.io",
+      name: "Carson Darrin",
+      phone: "304-428-3097",
+    },
+    {
+      id: "5e887ac47eed253091be10cb",
+      address: {
+        city: "Cleveland",
+        country: "USA",
+        state: "Ohio",
+        street: "2849 Fulton Street",
+      },
+      avatar: "/assets/avatars/avatar-carson-darrin.png",
+      createdAt: "",
+      email: "carson.darrin@devias.io",
+      name: "Carson Darrin",
+      phone: "304-428-3097",
+    },
   ];
 
   const useCustomers = (page, rowsPerPage) => {
@@ -185,7 +297,7 @@ export default function Users() {
   return (
     <>
       <Head>
-        <title>Customers | Devias Kit</title>
+        <title>Users</title>
       </Head>
       <Box
         component="main"
@@ -194,7 +306,7 @@ export default function Users() {
           py: 8,
         }}
       >
-        <Container maxWidth="xl">
+        <Container maxWidth="xl" >
           <Stack spacing={3}>
             <Stack direction="row" justifyContent="space-between" spacing={4}>
               <Stack spacing={1}>

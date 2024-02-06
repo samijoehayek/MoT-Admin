@@ -1,9 +1,9 @@
 import React from "react";
-import NextLink from 'next/link';
-import { usePathname } from 'next/navigation';
-import PropTypes from 'prop-types';
-import ArrowTopRightOnSquareIcon from '@heroicons/react/24/solid/ArrowTopRightOnSquareIcon';
-import ChevronUpDownIcon from '@heroicons/react/24/solid/ChevronUpDownIcon';
+import NextLink from "next/link";
+import { usePathname } from "next/navigation";
+import PropTypes from "prop-types";
+import ArrowTopRightOnSquareIcon from "@heroicons/react/24/solid/ArrowTopRightOnSquareIcon";
+import ChevronUpDownIcon from "@heroicons/react/24/solid/ChevronUpDownIcon";
 import {
   Box,
   Button,
@@ -12,12 +12,12 @@ import {
   Stack,
   SvgIcon,
   Typography,
-  useMediaQuery
-} from '@mui/material';
-import { Logo } from '../logo/logo';
-import { Scrollbar } from '../scrollbar/scrollbar';
-import { items } from './config';
-import { SideNavItem } from '../sidenav-items/sidenav-items';
+  useMediaQuery,
+} from "@mui/material";
+import { Logo } from "../logo/logo";
+import { Scrollbar } from "../scrollbar/scrollbar";
+import { items } from "./config";
+import { SideNavItem } from "../sidenav-items/sidenav-items";
 
 export default function Sidenav(props) {
   const { open, onClose } = props;
@@ -49,8 +49,8 @@ export default function Sidenav(props) {
             href="/"
             sx={{
               display: "inline-flex",
-              height: 32,
-              width: 32,
+              height: 37,
+              width: 57,
             }}
           >
             <Logo />
@@ -122,10 +122,10 @@ export default function Sidenav(props) {
       open={open}
       PaperProps={{
         sx: {
-          backgroundColor: 'neutral.800',
-          color: 'common.white',
-          width: 280
-        }
+          backgroundColor: "neutral.800",
+          color: "common.white",
+          width: 280,
+        },
       }}
       sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}
       variant="temporary"
@@ -133,4 +133,4 @@ export default function Sidenav(props) {
       {content}
     </Drawer>
   );
-};
+}
