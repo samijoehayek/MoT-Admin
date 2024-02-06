@@ -1,3 +1,4 @@
+'use client';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import {
@@ -68,19 +69,22 @@ export const CustomersTable = (props) => {
                   Phone
                 </TableCell>
                 <TableCell>
-                  Signed Up
+                  Role
+                </TableCell>
+                <TableCell>
+                  isActive
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((customer) => {
-                const isSelected = selected.includes(customer.id);
+              {items.map((user) => {
+                const isSelected = selected.includes(user.id);
                 const createdAt = "";
 
                 return (
                   <TableRow
                     hover
-                    key={customer.id}
+                    key={user.id}
                     selected={isSelected}
                   >
                     <TableCell padding="checkbox">
@@ -88,9 +92,9 @@ export const CustomersTable = (props) => {
                         checked={isSelected}
                         onChange={(event) => {
                           if (event.target.checked) {
-                            onSelectOne?.(customer.id);
+                            onSelectOne?.(user.id);
                           } else {
-                            onDeselectOne?.(customer.id);
+                            onDeselectOne?.(user.id);
                           }
                         }}
                       />
@@ -101,25 +105,28 @@ export const CustomersTable = (props) => {
                         direction="row"
                         spacing={2}
                       >
-                        <Avatar src={customer.avatar}>
-                          {getInitials(customer.name)}
+                        <Avatar src={user.avatar}>
+                          {getInitials(user.name)}
                         </Avatar>
                         <Typography variant="subtitle2">
-                          {customer.name}
+                          {user.name}
                         </Typography>
                       </Stack>
                     </TableCell>
                     <TableCell>
-                      {customer.email}
+                      {user.email}
                     </TableCell>
                     <TableCell>
-                      {customer.address.city}, {customer.address.state}, {customer.address.country}
+                      {user.address.city}, {user.address.state}, {user.address.country}
                     </TableCell>
                     <TableCell>
-                      {customer.phone}
+                      {user.phone}
                     </TableCell>
                     <TableCell>
-                      {createdAt}
+                      {user.role}
+                    </TableCell>
+                    <TableCell>
+                      {user.isActive ? 'Yes' : 'No'}
                     </TableCell>
                   </TableRow>
                 );

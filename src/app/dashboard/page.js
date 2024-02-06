@@ -2,17 +2,17 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import Head from 'next/head';
-import { subDays, subHours } from 'date-fns';
-import { Box, Container, Unstable_Grid2 as Grid } from '@mui/material';
-import { OverviewBudget } from '../../sections/overview/overview-budget';
-import { OverviewLatestOrders } from '../../sections/overview/overview-latest-orders';
-import { OverviewLatestProducts } from '../../sections/overview/overview-latest-products';
-import { OverviewSales } from '../../sections/overview/overview-sales';
-import { OverviewTasksProgress } from '../../sections/overview/overview-tasks-progress';
-import { OverviewTotalCustomers } from '../../sections/overview/overview-total-customers';
-import { OverviewTotalProfit } from '../../sections/overview/overview-total-profit';
-import { OverviewTraffic } from '../../sections/overview/overview-traffic';
+import Head from "next/head";
+import { subDays, subHours } from "date-fns";
+import { Box, Container, Unstable_Grid2 as Grid } from "@mui/material";
+import { OverviewRevenue } from "../../sections/overview/overview-revenue";
+import { OverviewLatestOrders } from "../../sections/overview/overview-latest-orders";
+import { OverviewLatestProducts } from "../../sections/overview/overview-latest-products";
+import { OverviewLocation } from "../../sections/overview/overview-location";
+import { OverviewTasksProgress } from "../../sections/overview/overview-tasks-progress";
+import { OverviewTotalUsers } from "../../sections/overview/overview-total-customers";
+import { OverviewTotalOwnerships } from "../../sections/overview/overview-total-ownerships";
+import { OverviewTraffic } from "../../sections/overview/overview-traffic";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -21,7 +21,7 @@ export default function Dashboard() {
   return (
     <>
       <Head>
-        <title>Overview | Devias Kit</title>
+        <title>Overview</title>
       </Head>
       <Box
         component="main"
@@ -33,10 +33,7 @@ export default function Dashboard() {
         <Container maxWidth="xl">
           <Grid container spacing={3}>
             <Grid xs={12} sm={6} lg={3}>
-              <OverviewBudget difference={12} positive sx={{ height: "100%" }} value="$24k" />
-            </Grid>
-            <Grid xs={12} sm={6} lg={3}>
-              <OverviewTotalCustomers
+              <OverviewTotalUsers
                 difference={16}
                 positive={false}
                 sx={{ height: "100%" }}
@@ -44,13 +41,16 @@ export default function Dashboard() {
               />
             </Grid>
             <Grid xs={12} sm={6} lg={3}>
-              <OverviewTasksProgress sx={{ height: "100%" }} value={75.5} />
+              <OverviewRevenue difference={12} positive sx={{ height: "100%" }} value="$24k" />
             </Grid>
             <Grid xs={12} sm={6} lg={3}>
-              <OverviewTotalProfit sx={{ height: "100%" }} value="$15k" />
+              <OverviewTotalOwnerships sx={{ height: "100%" }} value="15k" />
             </Grid>
+            {/* <Grid xs={12} sm={6} lg={3}>
+              <OverviewTasksProgress sx={{ height: "100%" }} value={75.5} />
+            </Grid> */}
             <Grid xs={12} lg={8}>
-              <OverviewSales
+              <OverviewLocation
                 chartSeries={[
                   {
                     name: "This year",
@@ -71,7 +71,7 @@ export default function Dashboard() {
                 sx={{ height: "100%" }}
               />
             </Grid>
-            <Grid xs={12} md={6} lg={4}>
+            {/* <Grid xs={12} md={6} lg={4}>
               <OverviewLatestProducts
                 products={[
                   {
@@ -107,8 +107,8 @@ export default function Dashboard() {
                 ]}
                 sx={{ height: "100%" }}
               />
-            </Grid>
-            <Grid xs={12} md={12} lg={8}>
+            </Grid> */}
+            {/* <Grid xs={12} md={12} lg={8}>
               <OverviewLatestOrders
                 orders={[
                   {
@@ -174,7 +174,7 @@ export default function Dashboard() {
                 ]}
                 sx={{ height: "100%" }}
               />
-            </Grid>
+            </Grid> */}
           </Grid>
         </Container>
       </Box>

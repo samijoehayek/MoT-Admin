@@ -72,18 +72,18 @@ const useChartOptions = () => {
         show: true
       },
       categories: [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec'
+        'LEBANON',
+        'SAUDI',
+        'UAE',
+        'QATAR',
+        'KUWAIT',
+        'BAHRAIN',
+        'OMAN',
+        'JORDAN',
+        'EGYPT',
+        'IRAQ',
+        'SYRIA',
+        'YEMEN'
       ],
       labels: {
         offsetY: 5,
@@ -104,7 +104,7 @@ const useChartOptions = () => {
   };
 };
 
-export const OverviewSales = (props) => {
+export const OverviewLocation = (props) => {
   const { chartSeries, sx } = props;
   const chartOptions = useChartOptions();
 
@@ -124,7 +124,7 @@ export const OverviewSales = (props) => {
             Sync
           </Button>
         )}
-        title="Sales"
+        title="Users by Location"
       />
       <CardContent>
         <Chart
@@ -135,7 +135,7 @@ export const OverviewSales = (props) => {
           width="100%"
         />
       </CardContent>
-      <Divider />
+      {/* <Divider />
       <CardActions sx={{ justifyContent: 'flex-end' }}>
         <Button
           color="inherit"
@@ -148,12 +148,12 @@ export const OverviewSales = (props) => {
         >
           Overview
         </Button>
-      </CardActions>
+      </CardActions> */}
     </Card>
   );
 };
 
-OverviewSales.protoTypes = {
+OverviewLocation.protoTypes = {
   chartSeries: PropTypes.array.isRequired,
   sx: PropTypes.object
 };

@@ -27,6 +27,8 @@ export default function Users() {
       email: "carson.darrin@devias.io",
       name: "Carson Darrin",
       phone: "304-428-3097",
+      role: "user",
+      isActive: true
     },
     {
       id: "5e887b209c28ac3dd97f6db5",
@@ -41,6 +43,8 @@ export default function Users() {
       email: "fran.perez@devias.io",
       name: "Fran Perez",
       phone: "712-351-5711",
+      role: "user",
+      isActive: true
     },
     {
       id: "5e887b7602bdbc4dbb234b27",
@@ -55,6 +59,8 @@ export default function Users() {
       email: "jie.yan.song@devias.io",
       name: "Jie Yan Song",
       phone: "770-635-2682",
+      role: "user",
+      isActive: true
     },
     {
       id: "5e86809283e28b96d2d38537",
@@ -69,6 +75,8 @@ export default function Users() {
       email: "anika.visser@devias.io",
       name: "Anika Visser",
       phone: "908-691-3242",
+      role: "user",
+      isActive: true
     },
     {
       id: "5e86805e2bafd54f66cc95c3",
@@ -83,6 +91,8 @@ export default function Users() {
       email: "miron.vitold@devias.io",
       name: "Miron Vitold",
       phone: "972-333-4106",
+      role: "user",
+      isActive: true
     },
     {
       id: "5e887a1fbefd7938eea9c981",
@@ -97,6 +107,8 @@ export default function Users() {
       email: "penjani.inyene@devias.io",
       name: "Penjani Inyene",
       phone: "858-602-3409",
+      role: "user",
+      isActive: true
     },
     {
       id: "5e887d0b3d090c1b8f162003",
@@ -111,6 +123,8 @@ export default function Users() {
       email: "omar.darobe@devias.io",
       name: "Omar Darobe",
       phone: "415-907-2647",
+      role: "user",
+      isActive: true
     },
     {
       id: "5e88792be2d4cfb4bf0971d9",
@@ -125,6 +139,8 @@ export default function Users() {
       email: "siegbert.gottfried@devias.io",
       name: "Siegbert Gottfried",
       phone: "702-661-1654",
+      role: "user",
+      isActive: true
     },
     {
       id: "5e8877da9a65442b11551975",
@@ -139,6 +155,8 @@ export default function Users() {
       email: "iulia.albu@devias.io",
       name: "Iulia Albu",
       phone: "313-812-8947",
+      role: "user",
+      isActive: true
     },
     {
       id: "5e8680e60cba5019c5ca6fda",
@@ -153,6 +171,8 @@ export default function Users() {
       email: "nasimiyu.danai@devias.io",
       name: "Nasimiyu Danai",
       phone: "801-301-7894",
+      role: "user",
+      isActive: true
     },
     {
       id: "5e887ac47eed253091be10cb",
@@ -167,6 +187,8 @@ export default function Users() {
       email: "carson.darrin@devias.io",
       name: "Carson Darrin",
       phone: "304-428-3097",
+      role: "user",
+      isActive: true
     },
     {
       id: "5e887ac47eed253091be10cb",
@@ -181,6 +203,8 @@ export default function Users() {
       email: "carson.darrin@devias.io",
       name: "Carson Darrin",
       phone: "304-428-3097",
+      role: "user",
+      isActive: true
     },
     {
       id: "5e887ac47eed253091be10cb",
@@ -195,6 +219,8 @@ export default function Users() {
       email: "carson.darrin@devias.io",
       name: "Carson Darrin",
       phone: "304-428-3097",
+      role: "user",
+      isActive: true
     },
     {
       id: "5e887ac47eed253091be10cb",
@@ -209,6 +235,8 @@ export default function Users() {
       email: "carson.darrin@devias.io",
       name: "Carson Darrin",
       phone: "304-428-3097",
+      role: "user",
+      isActive: true
     },
     {
       id: "5e887ac47eed253091be10cb",
@@ -223,6 +251,8 @@ export default function Users() {
       email: "carson.darrin@devias.io",
       name: "Carson Darrin",
       phone: "304-428-3097",
+      role: "user",
+      isActive: true
     },
     {
       id: "5e887ac47eed253091be10cb",
@@ -237,6 +267,8 @@ export default function Users() {
       email: "carson.darrin@devias.io",
       name: "Carson Darrin",
       phone: "304-428-3097",
+      role: "user",
+      isActive: true
     },
     {
       id: "5e887ac47eed253091be10cb",
@@ -251,6 +283,8 @@ export default function Users() {
       email: "carson.darrin@devias.io",
       name: "Carson Darrin",
       phone: "304-428-3097",
+      role: "user",
+      isActive: true
     },
     {
       id: "5e887ac47eed253091be10cb",
@@ -265,6 +299,8 @@ export default function Users() {
       email: "carson.darrin@devias.io",
       name: "Carson Darrin",
       phone: "304-428-3097",
+      role: "user",
+      isActive: true
     },
   ];
 
@@ -310,8 +346,8 @@ export default function Users() {
           <Stack spacing={3}>
             <Stack direction="row" justifyContent="space-between" spacing={4}>
               <Stack spacing={1}>
-                <Typography variant="h4">Customers</Typography>
-                <Stack alignItems="center" direction="row" spacing={1}>
+                <Typography variant="h4">Users</Typography>
+                {/* <Stack alignItems="center" direction="row" spacing={1}>
                   <Button
                     color="inherit"
                     startIcon={
@@ -332,7 +368,7 @@ export default function Users() {
                   >
                     Export
                   </Button>
-                </Stack>
+                </Stack> */}
               </Stack>
               <div>
                 <Button
