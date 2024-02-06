@@ -18,7 +18,7 @@ import {
 // import { Scrollbar } from '../components/scrollbar/scrollbar';
 import { getInitials } from '../utils/get-initials';
 
-export const CustomersTable = (props) => {
+export const UsersTable = (props) => {
   const {
     count = 0,
     items = [],
@@ -148,7 +148,7 @@ export const CustomersTable = (props) => {
   );
 };
 
-CustomersTable.propTypes = {
+UsersTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onDeselectAll: PropTypes.func,

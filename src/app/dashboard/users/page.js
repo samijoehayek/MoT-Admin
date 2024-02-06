@@ -8,8 +8,8 @@ import ArrowUpOnSquareIcon from "@heroicons/react/24/solid/ArrowUpOnSquareIcon";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
 import { Box, Button, Container, Stack, SvgIcon, Typography } from "@mui/material";
 import { useSelection } from "../../../hooks/use-selection";
-import { CustomersTable } from "../../../sections/customers-table";
-import { CustomersSearch } from "../../../sections/customers-search";
+import { UsersTable } from "../../../sections/users-table";
+import { UsersSearch } from "../../../sections/users-search";
 import { applyPagination } from "../../../utils/apply-pagination";
 
 export default function Users() {
@@ -304,23 +304,23 @@ export default function Users() {
     },
   ];
 
-  const useCustomers = (page, rowsPerPage) => {
+  const useUsers = (page, rowsPerPage) => {
     return useMemo(() => {
       return applyPagination(data, page, rowsPerPage);
     }, [page, rowsPerPage]);
   };
 
-  const useCustomerIds = (customers) => {
+  const useUserIds = (users) => {
     return useMemo(() => {
-      return customers.map((customer) => customer.id);
-    }, [customers]);
+      return users.map((users) => users.id);
+    }, [users]);
   };
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const customers = useCustomers(page, rowsPerPage);
-  const customersIds = useCustomerIds(customers);
-  const customersSelection = useSelection(customersIds);
+  const users = useUsers(page, rowsPerPage);
+  const usersIds = useUserIds(users);
+  const usersSelection = useSelection(usersIds);
 
   const handlePageChange = useCallback((event, value) => {
     setPage(value);
@@ -383,19 +383,19 @@ export default function Users() {
                 </Button>
               </div>
             </Stack>
-            <CustomersSearch />
-            <CustomersTable
+            <UsersSearch />
+            <UsersTable
               count={data.length}
-              items={customers}
-              onDeselectAll={customersSelection.handleDeselectAll}
-              onDeselectOne={customersSelection.handleDeselectOne}
+              items={users}
+              onDeselectAll={usersSelection.handleDeselectAll}
+              onDeselectOne={usersSelection.handleDeselectOne}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={customersSelection.handleSelectAll}
-              onSelectOne={customersSelection.handleSelectOne}
+              onSelectAll={usersSelection.handleSelectAll}
+              onSelectOne={usersSelection.handleSelectOne}
               page={page}
               rowsPerPage={rowsPerPage}
-              selected={customersSelection.selected}
+              selected={usersSelection.selected}
             />
           </Stack>
         </Container>
