@@ -1,5 +1,4 @@
 'use client';
-import Navbar from "@/components/navbar/navbar";
 import "./globals.css";
 
 import { ThemeProvider } from "@mui/material/styles";
@@ -17,8 +16,7 @@ export default function RootLayout({ children }, props) {
       <body className="min-h-screen">
         <CacheProvider value={emotionCache}>
           <ThemeProvider theme={theme}>
-            {/* <Navbar /> */}
-            <div className="min-h-screen flex justify-center items-center p-24">{children}</div>
+            <div>{children}</div>
           </ThemeProvider>
         </CacheProvider>
       </body>

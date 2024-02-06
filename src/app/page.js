@@ -3,10 +3,9 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main>
+    <main className="min-h-screen flex justify-center items-center">
       <Link href="/dashboard">
         <Button
-          fullWidth
           size="large"
           sx={{
             mt: 3,
