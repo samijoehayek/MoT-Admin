@@ -1,5 +1,5 @@
 import ChartBarIcon from '@heroicons/react/24/solid/ChartBarIcon';
-import CogIcon from '@heroicons/react/24/solid/CogIcon';
+import TagIcon from '@heroicons/react/24/solid/TagIcon';
 import LockClosedIcon from '@heroicons/react/24/solid/LockClosedIcon';
 import ShoppingBagIcon from '@heroicons/react/24/solid/ShoppingBagIcon';
 import UserIcon from '@heroicons/react/24/solid/UserIcon';
@@ -37,20 +37,20 @@ export const items = [
     )
   },
   {
+    title: 'Roles',
+    path: '/dashboard/roles',
+    icon: (
+      <SvgIcon fontSize="small">
+        <TagIcon />
+      </SvgIcon>
+    )
+  },
+  {
     title: 'Account',
     path: '/dashboard/account',
     icon: (
       <SvgIcon fontSize="small">
         <UserIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Settings',
-    path: '/dashboard/settings',
-    icon: (
-      <SvgIcon fontSize="small">
-        <CogIcon />
       </SvgIcon>
     )
   },
