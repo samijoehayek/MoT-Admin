@@ -11,7 +11,9 @@ export default function AccountPopover(props) {
 
   const handleSignOut = useCallback(() => {
     onClose?.();
-    router.push("/auth/login");
+    localStorage.removeItem('token');
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    router.push("/login");
   }, [onClose, router]);
   return (
     <Popover
@@ -32,7 +34,7 @@ export default function AccountPopover(props) {
       >
         <Typography variant="overline">Account</Typography>
         <Typography color="text.secondary" variant="body2">
-          Anika Visser
+          {props.user?props.user.username:"Anika Visser"}
         </Typography>
       </Box>
       <Divider />

@@ -1,9 +1,8 @@
 "use client";
 
-import React from "react";
-import { useRouter } from "next/navigation";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
-import { subDays, subHours } from "date-fns";
+import { set, subDays, subHours } from "date-fns";
 import { Box, Container, Unstable_Grid2 as Grid } from "@mui/material";
 import { OverviewRevenue } from "../../sections/overview/overview-revenue";
 import { OverviewLatestOrders } from "../../sections/overview/overview-latest-orders";
@@ -13,10 +12,25 @@ import { OverviewTasksProgress } from "../../sections/overview/overview-tasks-pr
 import { OverviewTotalUsers } from "../../sections/overview/overview-total-users";
 import { OverviewTotalOwnerships } from "../../sections/overview/overview-total-ownerships";
 import { OverviewTraffic } from "../../sections/overview/overview-traffic";
+import { getUserCount } from "@/axios";
 
 export default function Dashboard() {
-  const router = useRouter();
-  const now = new Date();
+  const [userCount, setUserCount] = useState(null);
+
+  // Functions
+  const userNumber = async () => {
+    const token = localStorage.getItem("token");
+    const count = await getUserCount(token);
+    if (!count) {
+      throw new Error("Failed to fetch data");
+    }
+    setUserCount(count);
+  };
+
+  // Use Effects
+  useEffect(() => {
+    userNumber();
+  }, []);
 
   return (
     <>
@@ -34,14 +48,19 @@ export default function Dashboard() {
           <Grid container spacing={3}>
             <Grid xs={12} sm={6} lg={3}>
               <OverviewTotalUsers
-                difference={16}
+                // difference={16}
                 positive={false}
                 sx={{ height: "100%" }}
-                value="1.6k"
+                value={userCount ? userCount.toString() : ""}
               />
             </Grid>
             <Grid xs={12} sm={6} lg={3}>
-              <OverviewRevenue difference={12} positive sx={{ height: "100%" }} value="$24k" />
+              <OverviewRevenue
+                // difference={12}
+                positive
+                sx={{ height: "100%" }}
+                value="$24k"
+              />
             </Grid>
             <Grid xs={12} sm={6} lg={3}>
               <OverviewTotalOwnerships sx={{ height: "100%" }} value="15k" />
@@ -56,10 +75,10 @@ export default function Dashboard() {
                     name: "This year",
                     data: [18, 16, 5, 8, 3, 14, 14, 16, 17, 19, 18, 20],
                   },
-                  {
-                    name: "Last year",
-                    data: [12, 11, 4, 6, 2, 9, 9, 10, 11, 12, 13, 13],
-                  },
+                  // {
+                  //   name: "Last year",
+                  //   data: [12, 11, 4, 6, 2, 9, 9, 10, 11, 12, 13, 13],
+                  // },
                 ]}
                 sx={{ height: "100%" }}
               />

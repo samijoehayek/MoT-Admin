@@ -63,10 +63,10 @@ export const UsersTable = (props) => {
                   Email
                 </TableCell>
                 <TableCell>
-                  Location
+                  Tag
                 </TableCell>
                 <TableCell>
-                  Phone
+                  Balance
                 </TableCell>
                 <TableCell>
                   Role
@@ -106,10 +106,10 @@ export const UsersTable = (props) => {
                         spacing={2}
                       >
                         <Avatar src={user.avatar}>
-                          {getInitials(user.name)}
+                          {getInitials(user.username)}
                         </Avatar>
                         <Typography variant="subtitle2">
-                          {user.name}
+                          {user.username}
                         </Typography>
                       </Stack>
                     </TableCell>
@@ -117,13 +117,13 @@ export const UsersTable = (props) => {
                       {user.email}
                     </TableCell>
                     <TableCell>
-                      {user.address.city}, {user.address.state}, {user.address.country}
+                      {user.tag}
                     </TableCell>
                     <TableCell>
-                      {user.phone}
+                      {user.balance}
                     </TableCell>
                     <TableCell>
-                      {user.role}
+                      {user.role?user.role.roleName:""}
                     </TableCell>
                     <TableCell>
                       {user.isActive ? 'Yes' : 'No'}
