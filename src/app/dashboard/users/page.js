@@ -28,9 +28,10 @@ import { UsersTable } from "../../../sections/users-table";
 import { UsersSearch } from "../../../sections/users-search";
 import { applyPagination } from "../../../utils/apply-pagination";
 import { getAllRoles, getAllUsers, adminCreate } from "@/axios";
+import SnackbarComponent from "../../../components/snackbar-component/snackbar-component";
+
 
 export default function Users() {
-
   const [allUsers, setAllUsers] = useState();
   const [allRoles, setAllRoles] = useState([]);
   const [selectedRole, setSelectedRole] = useState("");
@@ -87,10 +88,22 @@ export default function Users() {
     const token = localStorage.getItem("token");
     e.preventDefault();
     setLoading(true);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(document.getElementById("emailAddress").value)) {
+      setLoading(false);
+      setShowSnackbar({
+        openFlag: true,
+        message: "Email must be valid",
+        severity: "error",
+      });
+      throw new Error("Invalid email format");
+    }
     const newUser = {
       email: document.getElementById("emailAddress").value,
       username: document.getElementById("username").value,
       password: document.getElementById("password").value,
+      tag: document.getElementById("tag").value,
       roleId: selectedRole,
       isVerified: true,
     };
@@ -104,6 +117,7 @@ export default function Users() {
             username: newUser.username,
             email: newUser.email,
             role: { roleName: allRoles.find((role) => role.id === newUser.roleId).roleName },
+            tag: newUser.tag,
             isActive: true,
             balance: response.data.balance,
           },
@@ -113,7 +127,7 @@ export default function Users() {
         setLoading(false);
         setShowSnackbar({
           openFlag: true,
-          message: "Admin Created Successfully",
+          message: "User Created Successfully",
           severity: "success",
         });
       })
@@ -122,7 +136,7 @@ export default function Users() {
         setLoading(false);
         setShowSnackbar({
           openFlag: true,
-          message: "Failed To Create Admin",
+          message: "Failed To Create User",
           severity: "error",
         });
       });
@@ -146,6 +160,18 @@ export default function Users() {
           py: 8,
         }}
       >
+        <SnackbarComponent
+          openFlag={showSnackbar.openFlag}
+          message={showSnackbar.message}
+          severity={showSnackbar.severity}
+          onClose={() => {
+            setShowSnackbar({
+              openFlage: false,
+              message: "error",
+              severity: "error",
+            });
+          }}
+        />
         <Container maxWidth="xl">
           <Stack spacing={3}>
             <Stack direction="row" justifyContent="space-between" spacing={4}>
@@ -228,6 +254,13 @@ export default function Users() {
                 <TextField
                   label="Password"
                   id="password"
+                  style={{ marginBottom: "2vh" }}
+                  fullWidth
+                  required
+                />
+                <TextField
+                  label="Tag"
+                  id="tag"
                   style={{ marginBottom: "2vh" }}
                   fullWidth
                   required

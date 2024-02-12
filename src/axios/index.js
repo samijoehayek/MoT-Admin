@@ -31,7 +31,6 @@ export const getUserCount = async (token) => {
 };
 
 export const adminCreate = async (newUser, token) => {
-  console.log(newUser);
   const user = await axios.post(
     `${process.env.NEXT_PUBLIC_API_HOST}/users/adminCreate`,
     {
@@ -39,6 +38,7 @@ export const adminCreate = async (newUser, token) => {
       password: newUser.password,
       email: newUser.email,
       roleId: newUser.roleId,
+      tag: newUser.tag,
       isVerified: newUser.isVerified,
     },
     {
