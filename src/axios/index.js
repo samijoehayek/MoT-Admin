@@ -51,6 +51,22 @@ export const adminCreate = async (newUser, token) => {
   return user;
 };
 
+export const changeActivity = async (isActive, userId, token) => {
+  console.log(isActive);
+  console.log(userId);
+  console.log(token);
+  const toggleUserActivity = await axios.put(
+    `${process.env.NEXT_PUBLIC_API_HOST}/users/updateUserActivity/${userId}/${isActive}`,
+    null,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return toggleUserActivity;
+};
+
 // Roles
 export const getAllRoles = async (filter, skip, take, search) => {
   const roles = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/role`, {

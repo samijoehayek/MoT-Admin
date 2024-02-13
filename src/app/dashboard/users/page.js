@@ -27,9 +27,8 @@ import { useSelection } from "../../../hooks/use-selection";
 import { UsersTable } from "../../../sections/users-table";
 import { UsersSearch } from "../../../sections/users-search";
 import { applyPagination } from "../../../utils/apply-pagination";
-import { getAllRoles, getAllUsers, adminCreate } from "@/axios";
+import { getAllRoles, getAllUsers, adminCreate, changeActivity } from "@/axios";
 import SnackbarComponent from "../../../components/snackbar-component/snackbar-component";
-
 
 export default function Users() {
   const [allUsers, setAllUsers] = useState();
@@ -44,6 +43,8 @@ export default function Users() {
     message: "error",
     severity: "error",
   });
+  const [toggleActivityModal, setToggleActivityModal] = useState(false);
+  const [userActivityStatus, setUserActivityStatus] = useState();
 
   const useUsers = (page, rowsPerPage) => {
     return useMemo(() => {
@@ -142,6 +143,34 @@ export default function Users() {
       });
   };
 
+  const toggleUserActivity = () => {
+    const token = localStorage.getItem("token");
+    setLoading(true);
+    const userId = usersSelection.selected[0].toString()
+    changeActivity(!userActivityStatus, userId, token).then((response) => {
+      const updatedUsers = allUsers.map((user) => {
+        if (usersSelection.selected.includes(user.id)) {
+          return {
+            ...user,
+            isActive: !userActivityStatus,
+          };
+        }
+        return user;
+      });
+      setAllUsers(updatedUsers);
+    });
+
+    setToggleActivityModal(false);
+    setUserActivityStatus(!userActivityStatus)
+    setLoading(false);
+    setShowSnackbar({
+      openFlag: true,
+      message: "User Activity Changed Successfully",
+      severity: "success",
+    });
+  };
+
+
   // Use Effects
   useEffect(() => {
     getUsers();
@@ -226,6 +255,8 @@ export default function Users() {
               onSelectOne={usersSelection.handleSelectOne}
               page={page}
               rowsPerPage={rowsPerPage}
+              setToggleActivityModal={setToggleActivityModal}
+              setUserActivityStatus={setUserActivityStatus}
               selected={usersSelection.selected}
             />
           </Stack>
@@ -296,6 +327,29 @@ export default function Users() {
                 )}
               </DialogActions>
             </form>
+          </Dialog>
+          <Dialog open={toggleActivityModal} onClose={() => setToggleActivityModal(false)}>
+            <DialogTitle>
+              <Typography color="primary" style={{ fontWeight: "bold", fontSize: "1.5rem" }}>
+                Toggle User Activity
+              </Typography>
+            </DialogTitle>
+            <DialogContent>
+              <Typography style={{ marginBottom: "2vh" }}>
+                Are you sure you want to toggle the activity of the selected user?
+              </Typography>
+            </DialogContent>
+            <DialogActions>
+              {loading ? (
+                <Button variant="contained" disabled={true}>
+                  Toggle Activity
+                </Button>
+              ) : (
+                <Button variant="contained" type="submit" onClick={() => toggleUserActivity()}>
+                  Toggle Activity
+                </Button>
+              )}
+            </DialogActions>
           </Dialog>
         </Container>
       </Box>
