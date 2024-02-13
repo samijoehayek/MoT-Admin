@@ -106,7 +106,7 @@ export default function Navbar(props) {
                 height: 40,
                 width: 40
               }}
-              src="/assets/avatars/avatar-anika-visser.png"
+              // src="/assets/avatars/avatar-anika-visser.png"
             />
           </Stack>
         </Stack>
@@ -115,6 +115,7 @@ export default function Navbar(props) {
         anchorEl={accountPopover.anchorRef.current}
         open={accountPopover.open}
         onClose={accountPopover.handleClose}
+        user={props.user}
       />
     </>
   );
