@@ -27,7 +27,7 @@ import { useSelection } from "../../../hooks/use-selection";
 import { UsersTable } from "../../../sections/users-table";
 import { UsersSearch } from "../../../sections/users-search";
 import { applyPagination } from "../../../utils/apply-pagination";
-import { getAllRoles, getAllUsers, adminCreate, changeActivity } from "@/axios";
+import { getAllRoles, getAllUsers, adminCreate, changeActivity, searchUserByName } from "@/axios";
 import SnackbarComponent from "../../../components/snackbar-component/snackbar-component";
 
 export default function Users() {
@@ -45,6 +45,7 @@ export default function Users() {
   });
   const [toggleActivityModal, setToggleActivityModal] = useState(false);
   const [userActivityStatus, setUserActivityStatus] = useState();
+  const [search, setSearch] = useState("");
 
   const useUsers = (page, rowsPerPage) => {
     return useMemo(() => {
@@ -61,6 +62,11 @@ export default function Users() {
   const getUsers = async () => {
     const filter = JSON.stringify({ relations: ["role"] });
     const users = await getAllUsers(filter);
+    setAllUsers(users);
+  };
+
+  const searchUsers = async (search) => {
+    const users = await searchUserByName(search);
     setAllUsers(users);
   };
 
@@ -146,7 +152,7 @@ export default function Users() {
   const toggleUserActivity = () => {
     const token = localStorage.getItem("token");
     setLoading(true);
-    const userId = usersSelection.selected[0].toString()
+    const userId = usersSelection.selected[0].toString();
     changeActivity(!userActivityStatus, userId, token).then((response) => {
       const updatedUsers = allUsers.map((user) => {
         if (usersSelection.selected.includes(user.id)) {
@@ -161,7 +167,7 @@ export default function Users() {
     });
 
     setToggleActivityModal(false);
-    setUserActivityStatus(!userActivityStatus)
+    setUserActivityStatus(!userActivityStatus);
     setLoading(false);
     setShowSnackbar({
       openFlag: true,
@@ -170,12 +176,20 @@ export default function Users() {
     });
   };
 
-
   // Use Effects
   useEffect(() => {
     getUsers();
     getRoles();
   }, []);
+
+  useEffect(() => {
+    if(search) {
+      searchUsers(search);
+    }else{
+      getUsers();
+    }
+    
+  }, [search]);
 
   return (
     <>
@@ -243,7 +257,7 @@ export default function Users() {
                 </Button>
               </div>
             </Stack>
-            <UsersSearch />
+            <UsersSearch setSearch={setSearch} />
             <UsersTable
               count={allUsers?.length}
               items={users}

@@ -21,6 +21,14 @@ export const getUserByJWT = async (token, filter) => {
   return user.data;
 };
 
+export const searchUserByName = async (search) => {
+  const users = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/users/searchUserByName`, {
+    params: { search: search },
+  });
+  return users.data;
+
+}
+
 export const getUserCount = async (token) => {
   const userCount = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/users/GetUserCount`, {
     headers: {
@@ -52,9 +60,6 @@ export const adminCreate = async (newUser, token) => {
 };
 
 export const changeActivity = async (isActive, userId, token) => {
-  console.log(isActive);
-  console.log(userId);
-  console.log(token);
   const toggleUserActivity = await axios.put(
     `${process.env.NEXT_PUBLIC_API_HOST}/users/updateUserActivity/${userId}/${isActive}`,
     null,
