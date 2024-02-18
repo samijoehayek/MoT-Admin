@@ -46,7 +46,7 @@ export default function Users() {
   const [toggleActivityModal, setToggleActivityModal] = useState(false);
   const [userActivityStatus, setUserActivityStatus] = useState();
   const [search, setSearch] = useState("");
-
+  
   const useUsers = (page, rowsPerPage) => {
     return useMemo(() => {
       return applyPagination(allUsers ? allUsers : [], page, rowsPerPage);

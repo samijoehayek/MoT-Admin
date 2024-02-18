@@ -59,6 +59,37 @@ export const adminCreate = async (newUser, token) => {
   return user;
 };
 
+export const avatarCreate = async (newAvatar, token) => {
+  const avatar = await axios.post(
+    `${process.env.NEXT_PUBLIC_API_HOST}/avatar`,
+    {
+      name: newAvatar.name,
+      gender: newAvatar.gender,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return avatar;
+};
+
+export const getAllAvatars = async (filter, skip, take, search) => {
+  const avatars = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/avatar`, {
+    params: { filter: filter, skip: skip, take: take, search: search },
+  });
+  return avatars.data;
+};
+
+export const searchAvatarByName = async (search) => {
+  const avatars = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/avatar/searchAvatarByName`, {
+    params: { search: search },
+  });
+  return avatars.data;
+}
+
 export const changeActivity = async (isActive, userId, token) => {
   const toggleUserActivity = await axios.put(
     `${process.env.NEXT_PUBLIC_API_HOST}/users/updateUserActivity/${userId}/${isActive}`,
@@ -147,6 +178,39 @@ export const deleteContent = async (content, id) => {
     },
   });
 };
+
+// Collectable
+export const getAllCollectables = async (filter, skip, take, search) => {
+  const collectables = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/collectable`, {
+    params: { filter: filter, skip: skip, take: take, search: search },
+  });
+  return collectables.data;
+};
+
+export const collectableCreate = async (newCollectable, token) => {
+  const collectable = await axios.post(
+    `${process.env.NEXT_PUBLIC_API_HOST}/collectable`,
+    {
+      name: newCollectable.name,
+      description: newCollectable.description,
+      value: newCollectable.value,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return collectable;
+};
+
+export const searchCollectableByName = async (search) => {
+  const collectable = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/collectable/searchCollectableByName`, {
+    params: { search: search },
+  });
+  return collectable.data;
+}
 
 // auth
 export const login = async (username, password) => {

@@ -3,10 +3,12 @@ import TagIcon from '@heroicons/react/24/solid/TagIcon';
 import LockClosedIcon from '@heroicons/react/24/solid/LockClosedIcon';
 import ShoppingBagIcon from '@heroicons/react/24/solid/ShoppingBagIcon';
 import UserIcon from '@heroicons/react/24/solid/UserIcon';
-import UserPlusIcon from '@heroicons/react/24/solid/UserPlusIcon';
+import ComputerDesktopIcon from '@heroicons/react/24/solid/ComputerDesktopIcon';
 import UsersIcon from '@heroicons/react/24/solid/UsersIcon';
-import XCircleIcon from '@heroicons/react/24/solid/XCircleIcon';
+import CurrencyDollar from '@heroicons/react/24/solid/CurrencyDollarIcon';
 import { SvgIcon } from '@mui/material';
+import CurrencyDollarIcon from '@heroicons/react/24/solid/CurrencyDollarIcon';
+
 
 export const items = [
   {
@@ -24,6 +26,24 @@ export const items = [
     icon: (
       <SvgIcon fontSize="small">
         <UsersIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Avatars',
+    path: '/dashboard/avatar',
+    icon: (
+      <SvgIcon fontSize="small">
+        <ComputerDesktopIcon />
+      </SvgIcon>
+    )
+  },
+  {
+    title: 'Collectables',
+    path: '/dashboard/collectable',
+    icon: (
+      <SvgIcon fontSize="small">
+        <CurrencyDollarIcon />
       </SvgIcon>
     )
   },
