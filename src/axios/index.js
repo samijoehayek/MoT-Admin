@@ -38,6 +38,7 @@ export const getUserCount = async (token) => {
   return userCount.data;
 };
 
+// Admin
 export const adminCreate = async (newUser, token) => {
   const user = await axios.post(
     `${process.env.NEXT_PUBLIC_API_HOST}/users/adminCreate`,
@@ -76,6 +77,20 @@ export const avatarCreate = async (newAvatar, token) => {
   return avatar;
 };
 
+export const changeActivity = async (isActive, userId, token) => {
+  const toggleUserActivity = await axios.put(
+    `${process.env.NEXT_PUBLIC_API_HOST}/users/updateUserActivity/${userId}/${isActive}`,
+    null,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return toggleUserActivity;
+};
+
+// Avatar
 export const getAllAvatars = async (filter, skip, take, search) => {
   const avatars = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/avatar`, {
     params: { filter: filter, skip: skip, take: take, search: search },
@@ -89,19 +104,6 @@ export const searchAvatarByName = async (search) => {
   });
   return avatars.data;
 }
-
-export const changeActivity = async (isActive, userId, token) => {
-  const toggleUserActivity = await axios.put(
-    `${process.env.NEXT_PUBLIC_API_HOST}/users/updateUserActivity/${userId}/${isActive}`,
-    null,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  return toggleUserActivity;
-};
 
 // Roles
 export const getAllRoles = async (filter, skip, take, search) => {
@@ -221,3 +223,20 @@ export const login = async (username, password) => {
 
   return user.data;
 };
+
+export const changePassword = async (password, token) => {
+  const user = await axios.put(
+    `${process.env.NEXT_PUBLIC_API_HOST}/auth/changePassword`,
+    {
+      oldPassword: password.oldPassword,
+      newPassword: password.newPassword
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return user.data;
+}
