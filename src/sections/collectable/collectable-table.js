@@ -2,7 +2,7 @@
 import PropTypes from "prop-types";
 import { format } from "date-fns";
 import {
-  Avatar,
+  Collectable,
   Box,
   Card,
   Checkbox,
@@ -16,9 +16,9 @@ import {
   Typography,
 } from "@mui/material";
 // import { Scrollbar } from '../components/scrollbar/scrollbar';
-import { getInitials } from "../utils/get-initials";
+import { getInitials } from "../../utils/get-initials";
 
-export const UsersTable = (props) => {
+export const CollectableTable = (props) => {
   const {
     count = 0,
     items = [],
@@ -32,7 +32,7 @@ export const UsersTable = (props) => {
     rowsPerPage = 0,
     selected = [],
     setToggleActivityModal,
-    setUserActivityStatus,
+    setCollectableActivityStatus,
   } = props;
 
   const selectedSome = selected.length > 0 && selected.length < items.length;
@@ -40,7 +40,7 @@ export const UsersTable = (props) => {
 
   const toggleIsActive = (isActive) => {
     if (selected.length == 1) {
-      setUserActivityStatus(isActive);
+      setCollectableActivityStatus(isActive);
       setToggleActivityModal(true);
     }
   };
@@ -66,45 +66,36 @@ export const UsersTable = (props) => {
                 />
               </TableCell>
               <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Tag</TableCell>
-              <TableCell>Balance</TableCell>
-              <TableCell>Role</TableCell>
-              <TableCell>isActive</TableCell>
+              <TableCell>Description</TableCell>
+              <TableCell>Value</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {items.map((user) => {
-              const isSelected = selected.includes(user.id);
+            {items.map((collectable) => {
+              const isSelected = selected.includes(collectable.id);
               const createdAt = "";
 
               return (
-                <TableRow hover key={user.id} selected={isSelected}>
+                <TableRow hover key={collectable.id} selected={isSelected}>
                   <TableCell padding="checkbox">
                     <Checkbox
                       checked={isSelected}
                       onChange={(event) => {
                         if (event.target.checked) {
-                          onSelectOne?.(user.id);
+                          onSelectOne?.(collectable.id);
                         } else {
-                          onDeselectOne?.(user.id);
+                          onDeselectOne?.(collectable.id);
                         }
                       }}
                     />
                   </TableCell>
                   <TableCell>
                     <Stack alignItems="center" direction="row" spacing={2}>
-                      <Avatar src={user.avatar}>{getInitials(user.username)}</Avatar>
-                      <Typography variant="subtitle2">{user.username}</Typography>
+                      <Typography variant="subtitle2">{collectable.name}</Typography>
                     </Stack>
                   </TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.tag}</TableCell>
-                  <TableCell>{user.balance}</TableCell>
-                  <TableCell>{user.role ? user.role.roleName : ""}</TableCell>
-                  <TableCell onClick={() => toggleIsActive(user.isActive)}>
-                    {user.isActive ? "Yes" : "No"}
-                  </TableCell>
+                  <TableCell>{collectable.description}</TableCell>
+                  <TableCell>{collectable.value}</TableCell>
                 </TableRow>
               );
             })}
@@ -125,7 +116,7 @@ export const UsersTable = (props) => {
   );
 };
 
-UsersTable.propTypes = {
+CollectableTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onDeselectAll: PropTypes.func,

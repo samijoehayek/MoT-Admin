@@ -16,9 +16,9 @@ import {
   Typography,
 } from "@mui/material";
 // import { Scrollbar } from '../components/scrollbar/scrollbar';
-import { getInitials } from "../utils/get-initials";
+import { getInitials } from "../../utils/get-initials";
 
-export const UsersTable = (props) => {
+export const AvatarTable = (props) => {
   const {
     count = 0,
     items = [],
@@ -32,7 +32,7 @@ export const UsersTable = (props) => {
     rowsPerPage = 0,
     selected = [],
     setToggleActivityModal,
-    setUserActivityStatus,
+    setAvatarActivityStatus,
   } = props;
 
   const selectedSome = selected.length > 0 && selected.length < items.length;
@@ -40,7 +40,7 @@ export const UsersTable = (props) => {
 
   const toggleIsActive = (isActive) => {
     if (selected.length == 1) {
-      setUserActivityStatus(isActive);
+      setAvatarActivityStatus(isActive);
       setToggleActivityModal(true);
     }
   };
@@ -66,45 +66,37 @@ export const UsersTable = (props) => {
                 />
               </TableCell>
               <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Tag</TableCell>
-              <TableCell>Balance</TableCell>
-              <TableCell>Role</TableCell>
-              <TableCell>isActive</TableCell>
+              <TableCell>Gender</TableCell>
+              <TableCell>User Number</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {items.map((user) => {
-              const isSelected = selected.includes(user.id);
+            {items.map((avatar) => {
+              const isSelected = selected.includes(avatar.id);
               const createdAt = "";
 
               return (
-                <TableRow hover key={user.id} selected={isSelected}>
+                <TableRow hover key={avatar.id} selected={isSelected}>
                   <TableCell padding="checkbox">
                     <Checkbox
                       checked={isSelected}
                       onChange={(event) => {
                         if (event.target.checked) {
-                          onSelectOne?.(user.id);
+                          onSelectOne?.(avatar.id);
                         } else {
-                          onDeselectOne?.(user.id);
+                          onDeselectOne?.(avatar.id);
                         }
                       }}
                     />
                   </TableCell>
                   <TableCell>
                     <Stack alignItems="center" direction="row" spacing={2}>
-                      <Avatar src={user.avatar}>{getInitials(user.username)}</Avatar>
-                      <Typography variant="subtitle2">{user.username}</Typography>
+                      {/* <Avatar src={avatar.avatar}>{getInitials(avatar.name)}</Avatar> */}
+                      <Typography variant="subtitle2">{avatar.name}</Typography>
                     </Stack>
                   </TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.tag}</TableCell>
-                  <TableCell>{user.balance}</TableCell>
-                  <TableCell>{user.role ? user.role.roleName : ""}</TableCell>
-                  <TableCell onClick={() => toggleIsActive(user.isActive)}>
-                    {user.isActive ? "Yes" : "No"}
-                  </TableCell>
+                  <TableCell>{avatar.gender}</TableCell>
+                  <TableCell>{avatar.userNumber}</TableCell>
                 </TableRow>
               );
             })}
@@ -125,7 +117,7 @@ export const UsersTable = (props) => {
   );
 };
 
-UsersTable.propTypes = {
+AvatarTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onDeselectAll: PropTypes.func,
