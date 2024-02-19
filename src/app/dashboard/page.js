@@ -12,10 +12,12 @@ import { OverviewTasksProgress } from "../../sections/overview/overview-tasks-pr
 import { OverviewTotalUsers } from "../../sections/overview/overview-total-users";
 import { OverviewTotalOwnerships } from "../../sections/overview/overview-total-ownerships";
 import { OverviewTraffic } from "../../sections/overview/overview-traffic";
-import { getUserCount } from "@/axios";
+import { getUserCount, userIsAdmin } from "@/axios";
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
   const [userCount, setUserCount] = useState(null);
+  const router = useRouter();
 
   // Functions
   const userNumber = async () => {
@@ -27,9 +29,23 @@ export default function Dashboard() {
     setUserCount(count);
   };
 
+  const isAdmin = async () => {
+    const token = localStorage.getItem("token");
+    const admin = await userIsAdmin(token);
+    console.log("Admin: ", admin);
+  };
+
   // Use Effects
   useEffect(() => {
-    userNumber();
+    isAdmin()
+      .then(() => {
+        userNumber();
+      })
+      .catch((error) => {
+        localStorage.removeItem("token");
+        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        router.push("/login");
+      });
   }, []);
 
   return (
