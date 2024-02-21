@@ -38,8 +38,6 @@ export default function Login(props) {
             setLoginError(true);
             console.log("Login failed: ", error);
           });
-
-        // await auth.signIn(values.username, values.password);
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
