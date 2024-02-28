@@ -26,8 +26,7 @@ export const searchUserByName = async (search) => {
     params: { search: search },
   });
   return users.data;
-
-}
+};
 
 export const getUserCount = async (token) => {
   const userCount = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/users/GetUserCount`, {
@@ -103,7 +102,7 @@ export const searchAvatarByName = async (search) => {
     params: { search: search },
   });
   return avatars.data;
-}
+};
 
 // Roles
 export const getAllRoles = async (filter, skip, take, search) => {
@@ -208,11 +207,14 @@ export const collectableCreate = async (newCollectable, token) => {
 };
 
 export const searchCollectableByName = async (search) => {
-  const collectable = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/collectable/searchCollectableByName`, {
-    params: { search: search },
-  });
+  const collectable = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_HOST}/collectable/searchCollectableByName`,
+    {
+      params: { search: search },
+    }
+  );
   return collectable.data;
-}
+};
 
 // auth
 export const login = async (username, password) => {
@@ -229,7 +231,7 @@ export const changePassword = async (password, token) => {
     `${process.env.NEXT_PUBLIC_API_HOST}/auth/changePassword`,
     {
       oldPassword: password.oldPassword,
-      newPassword: password.newPassword
+      newPassword: password.newPassword,
     },
     {
       headers: {
@@ -237,6 +239,16 @@ export const changePassword = async (password, token) => {
       },
     }
   );
+
+  return user.data;
+};
+
+export const userIsAdmin = async (token) => {
+  const user = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/auth/userIsAdmin`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   return user.data;
 }
