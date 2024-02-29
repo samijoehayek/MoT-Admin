@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Users
-export const getAllUsers = async (filter, token) => {
+export const getAllUsers = async (token, filter, skip, take, search) => {
   const users = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/users`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -96,7 +96,7 @@ export const changeActivity = async (isActive, userId, token) => {
 };
 
 // Avatar
-export const getAllAvatars = async (token, filter) => {
+export const getAllAvatars = async (token, filter, skip, take, search) => {
   const avatars = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/avatar`, {
     headers: {
       Authorization: `Bearer ${token}`,
