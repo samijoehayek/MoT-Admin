@@ -64,7 +64,7 @@ export default function Avatars() {
 
   const searchAvatars = async (search) => {
     const token = localStorage.getItem("token");
-    const avatar = await searchAvatarByName(search, token);
+    const avatar = await searchAvatarByName(token, search);
     setAllAvatars(avatar);
   };
 

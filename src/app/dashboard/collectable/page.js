@@ -64,7 +64,7 @@ export default function Collectables() {
 
   const searchCollectables = async (search) => {
     const token = localStorage.getItem("token");
-    const collectable = await searchCollectableByName(search, token);
+    const collectable = await searchCollectableByName(token, search);
     setAllCollectables(collectable);
   };
 
@@ -122,7 +122,7 @@ export default function Collectables() {
       value: document.getElementById("value").value,
     };
 
-    collectableCreate(newCollectable, token)
+    collectableCreate(token, newCollectable)
       .then((response) => {
         setAllCollectables([
           ...allCollectables,

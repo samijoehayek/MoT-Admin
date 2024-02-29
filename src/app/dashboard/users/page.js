@@ -68,7 +68,7 @@ export default function Users() {
 
   const searchUsers = async (search) => {
     const token = localStorage.getItem("token");
-    const users = await searchUserByName(search, token);
+    const users = await searchUserByName(token, search);
     setAllUsers(users);
   };
 
