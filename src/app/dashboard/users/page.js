@@ -62,7 +62,7 @@ export default function Users() {
   const getUsers = async () => {
     const token = localStorage.getItem("token");
     const filter = JSON.stringify({ relations: ["role"] });
-    const users = await getAllUsers(filter, token);
+    const users = await getAllUsers(token, filter);
     setAllUsers(users);
   };
 
