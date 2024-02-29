@@ -1,8 +1,11 @@
 import axios from "axios";
 
 // Users
-export const getAllUsers = async (filter, skip, take, search) => {
+export const getAllUsers = async (filter, skip, take, search, token) => {
   const users = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/users`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     params: { filter: filter, skip: skip, take: take, search: search },
   });
   return users.data;
@@ -21,8 +24,11 @@ export const getUserByJWT = async (token, filter) => {
   return user.data;
 };
 
-export const searchUserByName = async (search) => {
+export const searchUserByName = async (search, token) => {
   const users = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/users/searchUserByName`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     params: { search: search },
   });
   return users.data;
@@ -90,99 +96,108 @@ export const changeActivity = async (isActive, userId, token) => {
 };
 
 // Avatar
-export const getAllAvatars = async (filter, skip, take, search) => {
+export const getAllAvatars = async (filter, skip, take, search, token) => {
   const avatars = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/avatar`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     params: { filter: filter, skip: skip, take: take, search: search },
   });
   return avatars.data;
 };
 
-export const searchAvatarByName = async (search) => {
+export const searchAvatarByName = async (search, token) => {
   const avatars = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/avatar/searchAvatarByName`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     params: { search: search },
   });
   return avatars.data;
 };
 
 // Roles
-export const getAllRoles = async (filter, skip, take, search) => {
+export const getAllRoles = async (filter, skip, take, search, token) => {
   const roles = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/role`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     params: { filter: filter, skip: skip, take: take, search: search },
   });
 
   return roles.data;
 };
 
-export const createRole = async (role) => {
+export const createRole = async (role, token) => {
   await axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/role`, role, {
     headers: {
       "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
   });
 };
 
-export const updateRole = async (role, id) => {
+export const updateRole = async (role, id, token) => {
   await axios.put(`${process.env.NEXT_PUBLIC_API_HOST}/role/${id}`, role, {
     headers: {
       "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
   });
 };
 
-export const deleteRole = async (role, id) => {
+export const deleteRole = async (role, id, token) => {
   await axios.delete(`${process.env.NEXT_PUBLIC_API_HOST}/role/${id}`, role, {
     headers: {
       "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
   });
 };
 
-// Manager
-export const toggleUserLogin = async (isActive, userId) => {
-  await axios.put(
-    `${process.env.NEXT_PUBLIC_API_HOST}/manager/toggleUserLogIn/${isActive}/${userId}`,
-    {
-      headers: {
-        "Content-type": "application/json",
-      },
-    }
-  );
-};
-
 // Content
-export const getAllContent = async (filter, skip, take, search) => {
+export const getAllContent = async (filter, skip, take, search, token) => {
   await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/content`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     params: { filter: filter, skip: skip, take: take, search: search },
   });
 };
 
-export const createContent = async (content) => {
+export const createContent = async (content, token) => {
   await axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/content`, content, {
     headers: {
       "Content-type": "application/json",
+      Authorization: `Bearer ${token}`
     },
   });
 };
 
-export const updateContent = async (content, id) => {
+export const updateContent = async (content, id, token) => {
   await axios.put(`${process.env.NEXT_PUBLIC_API_HOST}/content/${id}`, content, {
     headers: {
       "Content-type": "application/json",
+      Authorization: `Bearer ${token}`
     },
   });
 };
 
-export const deleteContent = async (content, id) => {
+export const deleteContent = async (content, id, token) => {
   await axios.delete(`${process.env.NEXT_PUBLIC_API_HOST}/content/${id}`, content, {
     headers: {
       "Content-type": "application/json",
+      Authorization: `Bearer ${token}`
     },
   });
 };
 
 // Collectable
-export const getAllCollectables = async (filter, skip, take, search) => {
+export const getAllCollectables = async (filter, skip, take, search, token) => {
   const collectables = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/collectable`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     params: { filter: filter, skip: skip, take: take, search: search },
   });
   return collectables.data;
@@ -206,10 +221,13 @@ export const collectableCreate = async (newCollectable, token) => {
   return collectable;
 };
 
-export const searchCollectableByName = async (search) => {
+export const searchCollectableByName = async (search, token) => {
   const collectable = await axios.get(
     `${process.env.NEXT_PUBLIC_API_HOST}/collectable/searchCollectableByName`,
     {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       params: { search: search },
     }
   );

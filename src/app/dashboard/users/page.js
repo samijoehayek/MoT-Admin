@@ -60,18 +60,21 @@ export default function Users() {
   };
 
   const getUsers = async () => {
+    const token = localStorage.getItem("token");
     const filter = JSON.stringify({ relations: ["role"] });
-    const users = await getAllUsers(filter);
+    const users = await getAllUsers(filter, token);
     setAllUsers(users);
   };
 
   const searchUsers = async (search) => {
-    const users = await searchUserByName(search);
+    const token = localStorage.getItem("token");
+    const users = await searchUserByName(search, token);
     setAllUsers(users);
   };
 
   const getRoles = async () => {
-    const roles = await getAllRoles();
+    const token = localStorage.getItem("token");
+    const roles = await getAllRoles(token);
     setAllRoles(roles);
   };
 

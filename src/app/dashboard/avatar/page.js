@@ -57,12 +57,14 @@ export default function Avatars() {
   };
 
   const getAvatars = async () => {
-    const avatar = await getAllAvatars();
+    const token = localStorage.getItem("token");
+    const avatar = await getAllAvatars(token);
     setAllAvatars(avatar);
   };
 
   const searchAvatars = async (search) => {
-    const avatar = await searchAvatarByName(search);
+    const token = localStorage.getItem("token");
+    const avatar = await searchAvatarByName(search, token);
     setAllAvatars(avatar);
   };
 
