@@ -24,6 +24,12 @@ RUN \
 
 # Rebuild the source code only when needed
 FROM base AS builder
+
+# Set the environment variables
+ARG api_endpoint jwt_secret
+
+ENV NEXT_PUBLIC_API_HOST=$api_endpoint JWT_SECRET_KEY=$jwt_secret
+
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -42,6 +48,12 @@ RUN \
 
 # Production image, copy all the files and run next
 FROM base AS runner
+
+# Set the environment variables
+ARG api_endpoint jwt_secret
+
+ENV NEXT_PUBLIC_API_HOST=$api_endpoint JWT_SECRET_KEY=$jwt_secret
+
 WORKDIR /app
 
 ENV NODE_ENV production
