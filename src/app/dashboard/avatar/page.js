@@ -182,7 +182,7 @@ export default function Avatars() {
               <Stack spacing={1}>
                 <Typography variant="h4">Avatars</Typography>
               </Stack>
-              <div>
+              {/* <div>
                 <Button
                   startIcon={
                     <SvgIcon fontSize="small">
@@ -194,7 +194,7 @@ export default function Avatars() {
                 >
                   Add
                 </Button>
-              </div>
+              </div> */}
             </Stack>
             <AvatarSearch setSearch={setSearch} />
             <AvatarTable
