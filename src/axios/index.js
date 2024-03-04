@@ -95,6 +95,48 @@ export const changeActivity = async (isActive, userId, token) => {
   return toggleUserActivity;
 };
 
+export const updateUserTag = async (userId, tag, token) => {
+  const changeUserTag = await axios.put(
+    `${process.env.NEXT_PUBLIC_API_HOST}/users/updateUserTag/${userId}`,
+    {tag: tag},
+    {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return changeUserTag;
+}
+
+export const updateUserBalance = async (userId, balance, token) => {
+  const changeUserBalance = await axios.put(
+    `${process.env.NEXT_PUBLIC_API_HOST}/users/updateUserBalance/${userId}`,
+    {balance: balance},
+    {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return changeUserBalance;
+}
+
+export const updateUserRole = async (userId, roleId, token) => {
+  const changeUserRole = await axios.put(
+    `${process.env.NEXT_PUBLIC_API_HOST}/users/updateUserRole/${userId}`,
+    {roleId: roleId},
+    {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return changeUserRole;
+}
+
 // Avatar
 export const getAllAvatars = async (token, filter, skip, take, search) => {
   const avatars = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/avatar`, {

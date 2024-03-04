@@ -80,12 +80,6 @@ export default function Collectables() {
     setRowsPerPage(event.target.value);
   }, []);
 
-  const handleGenderChange = (event) => {
-    setSelectedGender(event.target.value);
-  };
-
-  console.log(allCollectables)
-
   const createCollectable = (e) => {
     // To make sure that the one creating the collectable is an admin
     const token = localStorage.getItem("token");
