@@ -158,6 +158,20 @@ export const searchAvatarByName = async (token, search) => {
   return avatars.data;
 };
 
+export const updateAvatarName = async (avatarId, avatarName, token) => {
+  const changeAvatarName = await axios.put(
+    `${process.env.NEXT_PUBLIC_API_HOST}/avatar/updateAvatarName/${avatarId}`,
+    {name: avatarName},
+    {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return changeAvatarName;
+}
+
 // Roles
 export const getAllRoles = async (token, filter, skip, take, search) => {
   const roles = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/role`, {
