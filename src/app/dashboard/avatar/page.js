@@ -73,8 +73,6 @@ export default function Avatars() {
   const avatarIds = useAvatarIds(avatar);
   const avatarSelection = useSelection(avatarIds);
 
-  console.log(allAvatars, "allAvatars");
-
   const handlePageChange = useCallback((event, value) => {
     setPage(value);
   }, []);

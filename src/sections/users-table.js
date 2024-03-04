@@ -62,7 +62,6 @@ export const UsersTable = (props) => {
 
   const changeUserTag = () => {
     if (selected.length == 1) {
-      console.log(1);
       setUserTagModal(true);
     }
   };
