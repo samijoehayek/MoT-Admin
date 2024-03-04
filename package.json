@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3002",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3002",
     "lint": "next lint"
   },
   "dependencies": {
@@ -14,6 +14,7 @@
     "@heroicons/react": "^2.1.1",
     "@mui/material": "^5.15.7",
     "axios": "^1.6.7",
+    "apexcharts": "3.46.0",
     "date-fns": "^3.3.1",
     "formik": "^2.4.5",
     "jose": "^5.2.0",

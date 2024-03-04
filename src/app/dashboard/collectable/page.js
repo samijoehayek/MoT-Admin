@@ -57,12 +57,14 @@ export default function Collectables() {
   };
 
   const getCollectables = async () => {
-    const collectable = await getAllCollectables();
+    const token = localStorage.getItem("token");
+    const collectable = await getAllCollectables(token);
     setAllCollectables(collectable);
   };
 
   const searchCollectables = async (search) => {
-    const collectable = await searchCollectableByName(search);
+    const token = localStorage.getItem("token");
+    const collectable = await searchCollectableByName(token, search);
     setAllCollectables(collectable);
   };
 
@@ -120,7 +122,7 @@ export default function Collectables() {
       value: document.getElementById("value").value,
     };
 
-    collectableCreate(newCollectable, token)
+    collectableCreate(token, newCollectable)
       .then((response) => {
         setAllCollectables([
           ...allCollectables,
