@@ -290,6 +290,48 @@ export const searchCollectableByName = async (token, search) => {
   return collectable.data;
 };
 
+export const updateCollectableName = async (collectableId, collectableName, token) => {
+  const changeCollectableName = await axios.put(
+    `${process.env.NEXT_PUBLIC_API_HOST}/collectable/updateCollectableName/${collectableId}`,
+    {name: collectableName},
+    {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return changeCollectableName;
+}
+
+export const updateCollectableDescription = async (collectableId, collectableDescription, token) => {
+  const changeCollectableDescription = await axios.put(
+    `${process.env.NEXT_PUBLIC_API_HOST}/collectable/updateCollectableDescription/${collectableId}`,
+    {description: collectableDescription},
+    {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return changeCollectableDescription;
+}
+
+export const updateCollectableValue = async (collectableId, collectableValue, token) => {
+  const changeCollectableValue = await axios.put(
+    `${process.env.NEXT_PUBLIC_API_HOST}/collectable/updateCollectableValue/${collectableId}`,
+    {value: collectableValue},
+    {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return changeCollectableValue;
+}
+
 // auth
 export const login = async (username, password) => {
   const user = await axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/auth/adminLogin`, {

@@ -31,20 +31,11 @@ export const AvatarTable = (props) => {
     page = 0,
     rowsPerPage = 0,
     selected = [],
-    setToggleActivityModal,
-    setAvatarActivityStatus,
     setAvatarNameModal
   } = props;
 
   const selectedSome = selected.length > 0 && selected.length < items.length;
   const selectedAll = items.length > 0 && selected.length === items.length;
-
-  const toggleIsActive = (isActive) => {
-    if (selected.length == 1) {
-      setAvatarActivityStatus(isActive);
-      setToggleActivityModal(true);
-    }
-  };
 
   const changeAvatarName = () => {
     if (selected.length == 1) {
