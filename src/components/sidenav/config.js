@@ -57,15 +57,6 @@ export const items = [
     )
   },
   {
-    title: 'Roles',
-    path: '/dashboard/roles',
-    icon: (
-      <SvgIcon fontSize="small">
-        <TagIcon />
-      </SvgIcon>
-    )
-  },
-  {
     title: 'Account',
     path: '/dashboard/account',
     icon: (
