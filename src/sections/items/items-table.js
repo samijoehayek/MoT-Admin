@@ -30,8 +30,15 @@ export const ItemsTable = (props) => {
     onSelectOne,
     page = 0,
     rowsPerPage = 0,
-    selected = []
+    selected = [],
+    setItemPriceModal
   } = props;
+
+  const changeItemPrice = () => {
+    if(selected.length == 1){
+      setItemPriceModal(true)
+    }
+  }
 
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
@@ -60,13 +67,10 @@ export const ItemsTable = (props) => {
                   Name
                 </TableCell>
                 <TableCell>
-                  Number
+                  Price
                 </TableCell>
                 <TableCell>
-                  Rarity
-                </TableCell>
-                <TableCell>
-                  Items Left
+                  Body Type
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -107,14 +111,11 @@ export const ItemsTable = (props) => {
                         </Typography>
                       </Stack>
                     </TableCell>
-                    <TableCell>
-                      {item.itemNumber}
+                    <TableCell onClick={() => {changeItemPrice()}}>
+                      {item.price}
                     </TableCell>
                     <TableCell>
-                      {item.itemRarity}
-                    </TableCell>
-                    <TableCell>
-                      {item.itemsLeft}
+                      {item.type}
                     </TableCell>
                   </TableRow>
                 );

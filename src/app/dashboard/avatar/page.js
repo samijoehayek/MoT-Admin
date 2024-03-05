@@ -27,14 +27,15 @@ import { useSelection } from "../../../hooks/use-selection";
 import { AvatarTable } from "../../../sections/avatar/avatar-table";
 import { AvatarSearch } from "../../../sections/avatar/avatar-search";
 import { applyPagination } from "../../../utils/apply-pagination";
-import {getAllAvatars, searchAvatarByName, avatarCreate } from "@/axios";
+import {getAllAvatars, searchAvatarByName, avatarCreate, updateAvatarName } from "@/axios";
 import SnackbarComponent from "../../../components/snackbar-component/snackbar-component";
 
 export default function Avatars() {
   const [allAvatars, setAllAvatars] = useState();
   const [selectedGender, setSelectedGender] = useState("");
-  const [openAvatarModal, setOpenAvatarModal] = useState(false);
+  // const [openAvatarModal, setOpenAvatarModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [avatarNameModal, setAvatarNameModal] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [showSnackbar, setShowSnackbar] = useState({
@@ -84,59 +85,87 @@ export default function Avatars() {
     setSelectedGender(event.target.value);
   };
 
-  const createAvatar = (e) => {
-
-    // To make sure that the one creating the avatar is an admin
+  const changeAvatarName = () => {
     const token = localStorage.getItem("token");
-    e.preventDefault();
+    const avatarName = document.getElementById("name").value;
     setLoading(true);
-    const nameRegex = /^[^\d\W][a-zA-Z0-9]*$/;
-
-    if (!nameRegex.test(document.getElementById("name").value)) {
-      setLoading(false);
-      setShowSnackbar({
-        openFlag: true,
-        message: "Name must start with a letter and can only contain alphanumeric characters",
-        severity: "error",
+    const avatarId = avatarSelection.selected[0].toString();
+    updateAvatarName(avatarId, avatarName, token).then((response) => {
+      const updatedAvatars = allAvatars.map((avatar) => {
+        if (avatarSelection.selected.includes(avatar.id)) {
+          return {
+            ...avatar,
+            name: avatarName,
+          };
+        }
+        return avatar;
       });
-      throw new Error("Invalid name format");
-    }
-    const newAvatar = {
-      name: document.getElementById("name").value,
-      gender: selectedGender,
-    };
+      setAllAvatars(updatedAvatars);
+    });
 
-    avatarCreate(newAvatar, token)
-      .then((response) => {
-        setAllAvatars([
-          ...allAvatars,
-          {
-            id: response.data.id,
-            name: newAvatar.name,
-            gender: newAvatar.gender,
-            model: response.data.model,
-          },
-          // Add new avatar
-        ]);
-        setOpenAvatarModal(false);
-        setLoading(false);
-        setShowSnackbar({
-          openFlag: true,
-          message: "Avatar Created Successfully",
-          severity: "success",
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        setOpenAvatarModal(false);
-        setLoading(false);
-        setShowSnackbar({
-          openFlag: true,
-          message: "Failed To Create Avatar",
-          severity: "error",
-        });
-      });
+    setAvatarNameModal(false);
+    setLoading(false);
+    setShowSnackbar({
+      openFlag: true,
+      message: "Avatar Name Changed Successfully",
+      severity: "success",
+    });
   };
+
+  // const createAvatar = (e) => {
+
+  //   // To make sure that the one creating the avatar is an admin
+  //   const token = localStorage.getItem("token");
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   const nameRegex = /^[^\d\W][a-zA-Z0-9]*$/;
+
+  //   if (!nameRegex.test(document.getElementById("name").value)) {
+  //     setLoading(false);
+  //     setShowSnackbar({
+  //       openFlag: true,
+  //       message: "Name must start with a letter and can only contain alphanumeric characters",
+  //       severity: "error",
+  //     });
+  //     throw new Error("Invalid name format");
+  //   }
+  //   const newAvatar = {
+  //     name: document.getElementById("name").value,
+  //     gender: selectedGender,
+  //   };
+
+  //   avatarCreate(newAvatar, token)
+  //     .then((response) => {
+  //       setAllAvatars([
+  //         ...allAvatars,
+  //         {
+  //           id: response.data.id,
+  //           name: newAvatar.name,
+  //           gender: newAvatar.gender,
+  //           model: response.data.model,
+  //         },
+  //         // Add new avatar
+  //       ]);
+  //       setOpenAvatarModal(false);
+  //       setLoading(false);
+  //       setShowSnackbar({
+  //         openFlag: true,
+  //         message: "Avatar Created Successfully",
+  //         severity: "success",
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       setOpenAvatarModal(false);
+  //       setLoading(false);
+  //       setShowSnackbar({
+  //         openFlag: true,
+  //         message: "Failed To Create Avatar",
+  //         severity: "error",
+  //       });
+  //     });
+  // };
+
 
   // Use Effects
   useEffect(() => {
@@ -209,9 +238,40 @@ export default function Avatars() {
               page={page}
               rowsPerPage={rowsPerPage}
               selected={avatarSelection.selected}
+              setAvatarNameModal={setAvatarNameModal}
             />
           </Stack>
-          <Dialog open={openAvatarModal} onClose={() => setOpenAvatarModal(false)}>
+          <Dialog open={avatarNameModal} onClose={() => setAvatarNameModal(false)}>
+            <DialogTitle>
+              <Typography color="primary" style={{ fontWeight: "bold", fontSize: "1.5rem" }}>
+                Change the name of the selected avatar
+              </Typography>
+            </DialogTitle>
+            <DialogContent>
+              <Typography style={{ marginBottom: "2vh" }}>
+                Balance of the user can only be a string
+              </Typography>
+            </DialogContent>
+            <TextField
+              label="New Name"
+              id="name"
+              name="newName"
+              type="string"
+              style={{ width: "90%", maxWidth: "90%", margin: "auto", marginBottom: "10px" }}
+            />
+            <DialogActions>
+              {loading ? (
+                <Button variant="contained" disabled={true}>
+                  Update Name
+                </Button>
+              ) : (
+                <Button variant="contained" type="submit" onClick={() => changeAvatarName()}>
+                  Update Name
+                </Button>
+              )}
+            </DialogActions>
+          </Dialog>
+          {/* <Dialog open={openAvatarModal} onClose={() => setOpenAvatarModal(false)}>
             <DialogTitle>
               <Typography color="primary" style={{ fontWeight: "bold", fontSize: "1.5rem" }}>
                 Create Avatar - Approved by Unity Team
@@ -258,7 +318,7 @@ export default function Avatars() {
                 )}
               </DialogActions>
             </form>
-          </Dialog>
+          </Dialog> */}
         </Container>
       </Box>
     </>

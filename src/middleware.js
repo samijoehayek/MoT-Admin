@@ -21,6 +21,6 @@ export async function middleware(req) {
 }
 
 export const config = {
-    matcher: ['/dashboard', '/login', '/dashboard/users', '/dashboard/items', '/dashboard/account', '/dashboard/roles', '/dashboard/avatar', '/dashboard/collectable'],
+    matcher: ['/dashboard', '/login', '/dashboard/users', '/dashboard/items', '/dashboard/account', '/dashboard/avatar', '/dashboard/collectable'],
 
 }

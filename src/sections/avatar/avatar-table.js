@@ -31,17 +31,15 @@ export const AvatarTable = (props) => {
     page = 0,
     rowsPerPage = 0,
     selected = [],
-    setToggleActivityModal,
-    setAvatarActivityStatus,
+    setAvatarNameModal
   } = props;
 
   const selectedSome = selected.length > 0 && selected.length < items.length;
   const selectedAll = items.length > 0 && selected.length === items.length;
 
-  const toggleIsActive = (isActive) => {
+  const changeAvatarName = () => {
     if (selected.length == 1) {
-      setAvatarActivityStatus(isActive);
-      setToggleActivityModal(true);
+      setAvatarNameModal(true);
     }
   };
 
@@ -89,10 +87,10 @@ export const AvatarTable = (props) => {
                       }}
                     />
                   </TableCell>
-                  <TableCell>
+                  <TableCell onClick={() => {changeAvatarName()}}>
                     <Stack alignItems="center" direction="row" spacing={2}>
                       {/* <Avatar src={avatar.avatar}>{getInitials(avatar.name)}</Avatar> */}
-                      <Typography variant="subtitle2">{avatar.name}</Typography>
+                      <Typography variant="subtitle2" >{avatar.name}</Typography>
                     </Stack>
                   </TableCell>
                   <TableCell>{avatar.gender}</TableCell>
