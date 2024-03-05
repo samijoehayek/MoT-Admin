@@ -277,6 +277,7 @@ export const collectableCreate = async (token, newCollectable) => {
   return collectable;
 };
 
+
 export const searchCollectableByName = async (token, search) => {
   const collectable = await axios.get(
     `${process.env.NEXT_PUBLIC_API_HOST}/collectable/searchCollectableByName`,
@@ -331,6 +332,46 @@ export const updateCollectableValue = async (collectableId, collectableValue, to
   );
   return changeCollectableValue;
 }
+
+// Items
+export const getAllItems = async (token, filter, skip, take, search) => {
+  const items = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/item`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    params: { filter: filter, skip: skip, take: take, search: search },
+  });
+  return items.data;
+};
+
+export const searchItemByName = async (token, search) => {
+  const item = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_HOST}/item/searchItemByName`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: { search: search },
+    }
+  );
+  return item.data;
+};
+
+export const updateItemPrice = async (itemId, itemPrice, token) => {
+  const changeItemPrice = await axios.put(
+    `${process.env.NEXT_PUBLIC_API_HOST}/item/updateItemPrice/${itemId}`,
+    {price: itemPrice},
+    {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return changeItemPrice;
+}
+
+
 
 // auth
 export const login = async (username, password) => {
