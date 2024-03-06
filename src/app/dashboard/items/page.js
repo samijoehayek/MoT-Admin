@@ -23,7 +23,7 @@ import { useSelection } from "../../../hooks/use-selection";
 import { ItemsTable } from "../../../sections/items/items-table";
 import { ItemsSearch } from "../../../sections/items/items-search";
 import { applyPagination } from "../../../utils/apply-pagination";
-import { getAllItems, updateItemPrice } from "@/axios";
+import { getAllItems, updateItemPrice, searchItemByName } from "@/axios";
 import SnackbarComponent from "../../../components/snackbar-component/snackbar-component";
 
 export default function Items() {
@@ -45,7 +45,7 @@ export default function Items() {
 
   const searchItems = async () => {
     const token = localStorage.getItem("token");
-    const item = await getAllItems(token);
+    const item = await searchItemByName(token);
     setAllItems(item);
   };
 
