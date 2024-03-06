@@ -43,9 +43,9 @@ export default function Items() {
     setAllItems(items);
   };
 
-  const searchItems = async () => {
+  const searchItems = async (search) => {
     const token = localStorage.getItem("token");
-    const item = await searchItemByName(token);
+    const item = await searchItemByName(token, search);
     setAllItems(item);
   };
 
