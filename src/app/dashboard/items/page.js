@@ -37,6 +37,8 @@ export default function Items() {
     severity: "error",
   });
 
+  console.log(search)
+
   const getItems = async () => {
     const token = localStorage.getItem("token");
     const items = await getAllItems(token);
