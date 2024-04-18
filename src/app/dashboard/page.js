@@ -32,7 +32,6 @@ export default function Dashboard() {
   const isAdmin = async () => {
     const token = localStorage.getItem("token");
     const admin = await userIsAdmin(token);
-    console.log("Admin: ", admin);
   };
 
   // Use Effects

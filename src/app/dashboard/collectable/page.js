@@ -27,14 +27,16 @@ import { useSelection } from "../../../hooks/use-selection";
 import { CollectableTable } from "../../../sections/collectable/collectable-table";
 import { CollectableSearch } from "../../../sections/collectable/collectable-search";
 import { applyPagination } from "../../../utils/apply-pagination";
-import { getAllCollectables, searchCollectableByName, collectableCreate } from "@/axios";
+import { getAllCollectables, searchCollectableByName, collectableCreate, updateCollectableName, updateCollectableDescription, updateCollectableValue } from "@/axios";
 import SnackbarComponent from "../../../components/snackbar-component/snackbar-component";
 
 export default function Collectables() {
   const [allCollectables, setAllCollectables] = useState();
-  const [selectedGender, setSelectedGender] = useState("");
-  const [openCollectableModal, setOpenCollectableModal] = useState(false);
+  // const [openCollectableModal, setOpenCollectableModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [collectableNameModal, setCollectableNameModal] = useState(false);
+  const [collectableDescriptionModal, setCollectableDescriptionModal] = useState(false);
+  const [collectableValueModal, setCollectableValueModal] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [showSnackbar, setShowSnackbar] = useState({
@@ -80,79 +82,151 @@ export default function Collectables() {
     setRowsPerPage(event.target.value);
   }, []);
 
-  const handleGenderChange = (event) => {
-    setSelectedGender(event.target.value);
-  };
-
-  console.log(allCollectables)
-
-  const createCollectable = (e) => {
-    // To make sure that the one creating the collectable is an admin
+  const changeCollectableName = () => {
     const token = localStorage.getItem("token");
-    e.preventDefault();
+    const collectableName = document.getElementById("name").value;
     setLoading(true);
-    const nameRegex = /^[^\d\W][a-zA-Z0-9]*$/;
-
-    if (!nameRegex.test(document.getElementById("name").value)) {
-      setLoading(false);
-      setShowSnackbar({
-        openFlag: true,
-        message: "Name must start with a letter and can only contain alphanumeric characters",
-        severity: "error",
+    const collectableId = collectableSelection.selected[0].toString();
+    updateCollectableName(collectableId, collectableName, token).then((response) => {
+      const updateCollectables = allCollectables.map((collectable) => {
+        if (collectableSelection.selected.includes(collectable.id)) {
+          return {
+            ...collectable,
+            name: collectableName,
+          };
+        }
+        return collectable;
       });
-      throw new Error("Invalid name format");
-    }
-
-    // Make sure that the value is a number
-    const integerRegex = /^\d+$/;
-
-    if (!integerRegex.test(document.getElementById("value").value)) {
-      setLoading(false);
-      setShowSnackbar({
-        openFlag: true,
-        message: "Value must be a valid integer number",
-        severity: "error",
-      });
-      throw new Error("Invalid value format");
-    }
-
-    const newCollectable = {
-      name: document.getElementById("name").value,
-      description: document.getElementById("description").value,
-      value: document.getElementById("value").value,
-    };
-
-    collectableCreate(token, newCollectable)
-      .then((response) => {
-        setAllCollectables([
-          ...allCollectables,
-          {
-            id: response.data.id,
-            name: newCollectable.name,
-            gender: newCollectable.gender,
-            model: response.data.model,
-          },
-          // Add new collectable
-        ]);
-        setOpenCollectableModal(false);
-        setLoading(false);
-        setShowSnackbar({
-          openFlag: true,
-          message: "Collectable Created Successfully",
-          severity: "success",
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        setOpenCollectableModal(false);
-        setLoading(false);
-        setShowSnackbar({
-          openFlag: true,
-          message: "Failed To Create Collectable",
-          severity: "error",
-        });
-      });
+      setAllCollectables(updateCollectables);
+    });
+    setCollectableNameModal(false);
+    setLoading(false);
+    setShowSnackbar({
+      openFlag: true,
+      message: "Collectable Name Changed Successfully",
+      severity: "success",
+    });
   };
+
+  const changeCollectableDescription = () => {
+    const token = localStorage.getItem("token");
+    const collectableDescription = document.getElementById("description").value;
+    setLoading(true);
+    const collectableId = collectableSelection.selected[0].toString();
+    updateCollectableDescription(collectableId, collectableDescription, token).then((response) => {
+      const updateCollectables = allCollectables.map((collectable) => {
+        if (collectableSelection.selected.includes(collectable.id)) {
+          return {
+            ...collectable,
+            description: collectableDescription,
+          };
+        }
+        return collectable;
+      });
+      setAllCollectables(updateCollectables);
+    });
+    setCollectableDescriptionModal(false);
+    setLoading(false);
+    setShowSnackbar({
+      openFlag: true,
+      message: "Collectable Description Changed Successfully",
+      severity: "success",
+    });
+  };
+
+  const changeCollectableValue = () => {
+    const token = localStorage.getItem("token");
+    const collectableValue = document.getElementById("value").value;
+    setLoading(true);
+    const collectableId = collectableSelection.selected[0].toString();
+    updateCollectableValue(collectableId, collectableValue, token).then((response) => {
+      const updateCollectables = allCollectables.map((collectable) => {
+        if (collectableSelection.selected.includes(collectable.id)) {
+          return {
+            ...collectable,
+            value: collectableValue,
+          };
+        }
+        return collectable;
+      });
+      setAllCollectables(updateCollectables);
+    });
+    setCollectableValueModal(false);
+    setLoading(false);
+    setShowSnackbar({
+      openFlag: true,
+      message: "Collectable Value Changed Successfully",
+      severity: "success",
+    });
+  };
+
+  // const createCollectable = (e) => {
+  //   // To make sure that the one creating the collectable is an admin
+  //   const token = localStorage.getItem("token");
+  //   e.preventDefault();
+  //   setLoading(true);
+  //   const nameRegex = /^[^\d\W][a-zA-Z0-9]*$/;
+
+  //   if (!nameRegex.test(document.getElementById("name").value)) {
+  //     setLoading(false);
+  //     setShowSnackbar({
+  //       openFlag: true,
+  //       message: "Name must start with a letter and can only contain alphanumeric characters",
+  //       severity: "error",
+  //     });
+  //     throw new Error("Invalid name format");
+  //   }
+
+  //   // Make sure that the value is a number
+  //   const integerRegex = /^\d+$/;
+
+  //   if (!integerRegex.test(document.getElementById("value").value)) {
+  //     setLoading(false);
+  //     setShowSnackbar({
+  //       openFlag: true,
+  //       message: "Value must be a valid integer number",
+  //       severity: "error",
+  //     });
+  //     throw new Error("Invalid value format");
+  //   }
+
+  //   const newCollectable = {
+  //     name: document.getElementById("name").value,
+  //     description: document.getElementById("description").value,
+  //     value: document.getElementById("value").value,
+  //   };
+
+  //   collectableCreate(token, newCollectable)
+  //     .then((response) => {
+  //       setAllCollectables([
+  //         ...allCollectables,
+  //         {
+  //           id: response.data.id,
+  //           name: newCollectable.name,
+  //           gender: newCollectable.gender,
+  //           model: response.data.model,
+  //         },
+  //         // Add new collectable
+  //       ]);
+  //       setOpenCollectableModal(false);
+  //       setLoading(false);
+  //       setShowSnackbar({
+  //         openFlag: true,
+  //         message: "Collectable Created Successfully",
+  //         severity: "success",
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //       setOpenCollectableModal(false);
+  //       setLoading(false);
+  //       setShowSnackbar({
+  //         openFlag: true,
+  //         message: "Failed To Create Collectable",
+  //         severity: "error",
+  //       });
+  //     });
+  // };
 
   // Use Effects
   useEffect(() => {
@@ -197,7 +271,7 @@ export default function Collectables() {
               <Stack spacing={1}>
                 <Typography variant="h4">Collectables</Typography>
               </Stack>
-              <div>
+              {/* <div>
                 <Button
                   startIcon={
                     <SvgIcon fontSize="small">
@@ -209,7 +283,7 @@ export default function Collectables() {
                 >
                   Add
                 </Button>
-              </div>
+              </div> */}
             </Stack>
             <CollectableSearch setSearch={setSearch} />
             <CollectableTable
@@ -224,9 +298,109 @@ export default function Collectables() {
               page={page}
               rowsPerPage={rowsPerPage}
               selected={collectableSelection.selected}
+              setCollectableNameModal={setCollectableNameModal}
+              setCollectableDescriptionModal={setCollectableDescriptionModal}
+              setCollectableValueModal={setCollectableValueModal}
             />
           </Stack>
-          <Dialog open={openCollectableModal} onClose={() => setOpenCollectableModal(false)}>
+          <Dialog open={collectableNameModal} onClose={() => setCollectableNameModal(false)}>
+            <DialogTitle>
+              <Typography color="primary" style={{ fontWeight: "bold", fontSize: "1.5rem" }}>
+                Change the name of the selected collectable
+              </Typography>
+            </DialogTitle>
+            <DialogContent>
+              <Typography style={{ marginBottom: "2vh" }}>
+                Collectable name can only be a string
+              </Typography>
+            </DialogContent>
+            <TextField
+              label="New Name"
+              id="name"
+              name="newName"
+              type="string"
+              style={{ width: "90%", maxWidth: "90%", margin: "auto", marginBottom: "10px" }}
+            />
+            <DialogActions>
+              {loading ? (
+                <Button variant="contained" disabled={true}>
+                  Update Name
+                </Button>
+              ) : (
+                <Button variant="contained" type="submit" onClick={() => changeCollectableName()}>
+                  Update Name
+                </Button>
+              )}
+            </DialogActions>
+          </Dialog>
+          <Dialog
+            open={collectableDescriptionModal}
+            onClose={() => setCollectableDescriptionModal(false)}
+          >
+            <DialogTitle>
+              <Typography color="primary" style={{ fontWeight: "bold", fontSize: "1.5rem" }}>
+                Change the description od the collectable
+              </Typography>
+            </DialogTitle>
+            <DialogContent>
+              <Typography style={{ marginBottom: "2vh" }}>
+                Make sure the description represents the collectable
+              </Typography>
+            </DialogContent>
+            <TextField
+              label="New Description"
+              id="description"
+              name="newDescription"
+              type="string"
+              style={{ width: "90%", maxWidth: "90%", margin: "auto", marginBottom: "10px" }}
+            />
+            <DialogActions>
+              {loading ? (
+                <Button variant="contained" disabled={true}>
+                  Update Description
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  type="submit"
+                  onClick={() => changeCollectableDescription()}
+                >
+                  Update Description
+                </Button>
+              )}
+            </DialogActions>
+          </Dialog>
+          <Dialog open={collectableValueModal} onClose={() => setCollectableValueModal(false)}>
+            <DialogTitle>
+              <Typography color="primary" style={{ fontWeight: "bold", fontSize: "1.5rem" }}>
+                Change the name of the selected avatar
+              </Typography>
+            </DialogTitle>
+            <DialogContent>
+              <Typography style={{ marginBottom: "2vh" }}>
+                Balance of the user can only be a string
+              </Typography>
+            </DialogContent>
+            <TextField
+              label="New Value"
+              id="value"
+              name="newValue"
+              type="number"
+              style={{ width: "90%", maxWidth: "90%", margin: "auto", marginBottom: "10px" }}
+            />
+            <DialogActions>
+              {loading ? (
+                <Button variant="contained" disabled={true}>
+                  Update Value
+                </Button>
+              ) : (
+                <Button variant="contained" type="submit" onClick={() => changeCollectableValue()}>
+                  Update Value
+                </Button>
+              )}
+            </DialogActions>
+          </Dialog>
+          {/* <Dialog open={openCollectableModal} onClose={() => setOpenCollectableModal(false)}>
             <DialogTitle>
               <Typography color="primary" style={{ fontWeight: "bold", fontSize: "1.5rem" }}>
                 Create Collectable - Approved by Unity Team
@@ -268,7 +442,7 @@ export default function Collectables() {
                 )}
               </DialogActions>
             </form>
-          </Dialog>
+          </Dialog> */}
         </Container>
       </Box>
     </>

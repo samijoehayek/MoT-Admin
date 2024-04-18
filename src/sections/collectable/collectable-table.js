@@ -31,19 +31,31 @@ export const CollectableTable = (props) => {
     page = 0,
     rowsPerPage = 0,
     selected = [],
-    setToggleActivityModal,
-    setCollectableActivityStatus,
+    setCollectableNameModal,
+    setCollectableDescriptionModal,
+    setCollectableValueModal
   } = props;
 
   const selectedSome = selected.length > 0 && selected.length < items.length;
   const selectedAll = items.length > 0 && selected.length === items.length;
 
-  const toggleIsActive = (isActive) => {
+  const changeCollectableName = () => {
     if (selected.length == 1) {
-      setCollectableActivityStatus(isActive);
-      setToggleActivityModal(true);
+      setCollectableNameModal(true);
     }
-  };
+  }
+
+  const changeCollectableDescription = () => {
+    if (selected.length == 1) {
+      setCollectableDescriptionModal(true);
+    }
+  }
+
+  const changeCollectableValue = () => {
+    if (selected.length == 1) {
+      setCollectableValueModal(true);
+    }
+  }
 
   return (
     <Card>
@@ -89,13 +101,13 @@ export const CollectableTable = (props) => {
                       }}
                     />
                   </TableCell>
-                  <TableCell>
+                  <TableCell onClick={() => {changeCollectableName()}}>
                     <Stack alignItems="center" direction="row" spacing={2}>
                       <Typography variant="subtitle2">{collectable.name}</Typography>
                     </Stack>
                   </TableCell>
-                  <TableCell>{collectable.description}</TableCell>
-                  <TableCell>{collectable.value}</TableCell>
+                  <TableCell onClick={() => {changeCollectableDescription()}}>{collectable.description}</TableCell>
+                  <TableCell onClick={() => {changeCollectableValue()}}>{collectable.value}</TableCell>
                 </TableRow>
               );
             })}

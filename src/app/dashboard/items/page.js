@@ -1,90 +1,73 @@
 "use client";
 
 import React from "react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState, useEffect } from "react";
 import Head from "next/head";
 import ArrowDownOnSquareIcon from "@heroicons/react/24/solid/ArrowDownOnSquareIcon";
 import ArrowUpOnSquareIcon from "@heroicons/react/24/solid/ArrowUpOnSquareIcon";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
-import { Box, Button, Container, Stack, SvgIcon, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Stack,
+  SvgIcon,
+  Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+} from "@mui/material";
 import { useSelection } from "../../../hooks/use-selection";
 import { ItemsTable } from "../../../sections/items/items-table";
 import { ItemsSearch } from "../../../sections/items/items-search";
 import { applyPagination } from "../../../utils/apply-pagination";
+import { getAllItems, updateItemPrice, searchItemByName } from "@/axios";
+import SnackbarComponent from "../../../components/snackbar-component/snackbar-component";
 
 export default function Items() {
-  const data = [
-    {
-      id: "cdb45661-ceea-40c2-8cd2-f5aee508846d",
-      itemName: "Saudi Camel",
-      itemNumber: 25,
-      itemRarity: 1,
-      itemsLeft: 25,
-      createdAt: "2024-02-05T15:20:35.707Z",
-      createdBy: null,
-      updatedAt: "2024-02-05T15:20:35.707Z",
-      updatedBy: null,
-    },
-    {
-      id: "cdb5661-ceea-40c2-8cd2-f5aee508846d",
-      itemName: "Saudi Camel",
-      itemNumber: 25,
-      itemRarity: 1,
-      itemsLeft: 25,
-      createdAt: "2024-02-05T15:20:35.707Z",
-      createdBy: null,
-      updatedAt: "2024-02-05T15:20:35.707Z",
-      updatedBy: null,
-    },
-    {
-      id: "cdb45661-ceea-40c2-cd2-f5aee508846d",
-      itemName: "Saudi Camel",
-      itemNumber: 25,
-      itemRarity: 1,
-      createdAt: "2024-02-05T15:20:35.707Z",
-      createdBy: null,
-      updatedAt: "2024-02-05T15:20:35.707Z",
-      updatedBy: null,
-    },
-    {
-      id: "cdb45661-ceea-40c2-8c2-f5aee508846d",
-      itemName: "Saudi Camel",
-      itemNumber: 25,
-      itemRarity: 1,
-      createdAt: "2024-02-05T15:20:35.707Z",
-      createdBy: null,
-      updatedAt: "2024-02-05T15:20:35.707Z",
-      updatedBy: null,
-    },
-    {
-      id: "cdb45661-ceea-40c2-8cd2-f5aee50886d",
-      itemName: "Saudi Camel",
-      itemNumber: 25,
-      itemRarity: 1,
-      createdAt: "2024-02-05T15:20:35.707Z",
-      createdBy: null,
-      updatedAt: "2024-02-05T15:20:35.707Z",
-      updatedBy: null,
-    },
-  ];
+  const [allItems, setAllItems] = useState();
+  const [search, setSearch] = useState("");
+  const [itemPriceModal, setItemPriceModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showSnackbar, setShowSnackbar] = useState({
+    openFlag: false,
+    message: "error",
+    severity: "error",
+  });
 
-  const useCustomers = (page, rowsPerPage) => {
-    return useMemo(() => {
-      return applyPagination(data, page, rowsPerPage);
-    }, [page, rowsPerPage]);
+  console.log(search)
+
+  const getItems = async () => {
+    const token = localStorage.getItem("token");
+    const items = await getAllItems(token);
+    setAllItems(items);
   };
 
-  const useCustomerIds = (customers) => {
+  const searchItems = async (search) => {
+    const token = localStorage.getItem("token");
+    const item = await searchItemByName(token, search);
+    setAllItems(item);
+  };
+
+  const useItems = (page, rowsPerPage) => {
     return useMemo(() => {
-      return customers.map((customer) => customer.id);
-    }, [customers]);
+      return applyPagination(allItems ? allItems : [], page, rowsPerPage);
+    }, [page, rowsPerPage, allItems]);
+  };
+
+  const useItemIds = (items) => {
+    return useMemo(() => {
+      return items.map((item) => item.id);
+    }, [items]);
   };
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const customers = useCustomers(page, rowsPerPage);
-  const customersIds = useCustomerIds(customers);
-  const customersSelection = useSelection(customersIds);
+  const items = useItems(page, rowsPerPage);
+  const itemsIds = useItemIds(items);
+  const itemsSelection = useSelection(itemsIds);
 
   const handlePageChange = useCallback((event, value) => {
     setPage(value);
@@ -93,6 +76,44 @@ export default function Items() {
   const handleRowsPerPageChange = useCallback((event) => {
     setRowsPerPage(event.target.value);
   }, []);
+
+  const changeItemPrice = () => {
+    const token = localStorage.getItem("token");
+    const itemPrice = document.getElementById("price").value;
+    setLoading(true);
+    const itemId = itemsSelection.selected[0].toString();
+    updateItemPrice(itemId, itemPrice, token).then((response) => {
+      const updateItems = allItems.map((item) => {
+        if (itemsSelection.selected.includes(item.id)) {
+          return {
+            ...item,
+            price: itemPrice,
+          };
+        }
+        return item;
+      });
+      setAllItems(updateItems);
+    });
+    setItemPriceModal(false);
+    setLoading(false);
+    setShowSnackbar({
+      openFlag: true,
+      message: "Item Price Changed Successfully",
+      severity: "success",
+    });
+  };
+
+  useEffect(() => {
+    getItems();
+  }, []);
+
+  useEffect(() => {
+    if (search) {
+      searchItems(search);
+    } else {
+      getItems();
+    }
+  }, [search]);
 
   return (
     <>
@@ -106,6 +127,18 @@ export default function Items() {
           py: 8,
         }}
       >
+        <SnackbarComponent
+          openFlag={showSnackbar.openFlag}
+          message={showSnackbar.message}
+          severity={showSnackbar.severity}
+          onClose={() => {
+            setShowSnackbar({
+              openFlage: false,
+              message: "error",
+              severity: "error",
+            });
+          }}
+        />
         <Container maxWidth="xl">
           <Stack spacing={3}>
             <Stack direction="row" justifyContent="space-between" spacing={4}>
@@ -134,7 +167,7 @@ export default function Items() {
                   </Button>
                 </Stack> */}
               </Stack>
-              <div>
+              {/* <div>
                 <Button
                   startIcon={
                     <SvgIcon fontSize="small">
@@ -145,23 +178,52 @@ export default function Items() {
                 >
                   Add
                 </Button>
-              </div>
+              </div> */}
             </Stack>
-            <ItemsSearch />
+            <ItemsSearch setSearch={setSearch} />
             <ItemsTable
-              count={data.length}
-              items={customers}
-              onDeselectAll={customersSelection.handleDeselectAll}
-              onDeselectOne={customersSelection.handleDeselectOne}
+              count={allItems?.length}
+              items={items}
+              onDeselectAll={itemsSelection.handleDeselectAll}
+              onDeselectOne={itemsSelection.handleDeselectOne}
               onPageChange={handlePageChange}
               onRowsPerPageChange={handleRowsPerPageChange}
-              onSelectAll={customersSelection.handleSelectAll}
-              onSelectOne={customersSelection.handleSelectOne}
+              onSelectAll={itemsSelection.handleSelectAll}
+              onSelectOne={itemsSelection.handleSelectOne}
               page={page}
               rowsPerPage={rowsPerPage}
-              selected={customersSelection.selected}
+              setItemPriceModal={setItemPriceModal}
+              selected={itemsSelection.selected}
             />
           </Stack>
+          <Dialog open={itemPriceModal} onClose={() => setItemPriceModal(false)}>
+            <DialogTitle>
+              <Typography color="primary" style={{ fontWeight: "bold", fontSize: "1.5rem" }}>
+                Change the price of the selected item
+              </Typography>
+            </DialogTitle>
+            <DialogContent>
+              <Typography style={{ marginBottom: "2vh" }}>Item price should be positive</Typography>
+            </DialogContent>
+            <TextField
+              label="New Price"
+              id="price"
+              name="newPrice"
+              type="number"
+              style={{ width: "90%", maxWidth: "90%", margin: "auto", marginBottom: "10px" }}
+            />
+            <DialogActions>
+              {loading ? (
+                <Button variant="contained" disabled={true}>
+                  Update Price
+                </Button>
+              ) : (
+                <Button variant="contained" type="submit" onClick={() => changeItemPrice()}>
+                  Update Price
+                </Button>
+              )}
+            </DialogActions>
+          </Dialog>
         </Container>
       </Box>
     </>

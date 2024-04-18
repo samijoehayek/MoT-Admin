@@ -95,6 +95,48 @@ export const changeActivity = async (isActive, userId, token) => {
   return toggleUserActivity;
 };
 
+export const updateUserTag = async (userId, tag, token) => {
+  const changeUserTag = await axios.put(
+    `${process.env.NEXT_PUBLIC_API_HOST}/users/updateUserTag/${userId}`,
+    {tag: tag},
+    {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return changeUserTag;
+}
+
+export const updateUserBalance = async (userId, balance, token) => {
+  const changeUserBalance = await axios.put(
+    `${process.env.NEXT_PUBLIC_API_HOST}/users/updateUserBalance/${userId}`,
+    {balance: balance},
+    {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return changeUserBalance;
+}
+
+export const updateUserRole = async (userId, roleId, token) => {
+  const changeUserRole = await axios.put(
+    `${process.env.NEXT_PUBLIC_API_HOST}/users/updateUserRole/${userId}`,
+    {roleId: roleId},
+    {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return changeUserRole;
+}
+
 // Avatar
 export const getAllAvatars = async (token, filter, skip, take, search) => {
   const avatars = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/avatar`, {
@@ -115,6 +157,20 @@ export const searchAvatarByName = async (token, search) => {
   });
   return avatars.data;
 };
+
+export const updateAvatarName = async (avatarId, avatarName, token) => {
+  const changeAvatarName = await axios.put(
+    `${process.env.NEXT_PUBLIC_API_HOST}/avatar/updateAvatarName/${avatarId}`,
+    {name: avatarName},
+    {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return changeAvatarName;
+}
 
 // Roles
 export const getAllRoles = async (token, filter, skip, take, search) => {
@@ -221,6 +277,7 @@ export const collectableCreate = async (token, newCollectable) => {
   return collectable;
 };
 
+
 export const searchCollectableByName = async (token, search) => {
   const collectable = await axios.get(
     `${process.env.NEXT_PUBLIC_API_HOST}/collectable/searchCollectableByName`,
@@ -233,6 +290,88 @@ export const searchCollectableByName = async (token, search) => {
   );
   return collectable.data;
 };
+
+export const updateCollectableName = async (collectableId, collectableName, token) => {
+  const changeCollectableName = await axios.put(
+    `${process.env.NEXT_PUBLIC_API_HOST}/collectable/updateCollectableName/${collectableId}`,
+    {name: collectableName},
+    {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return changeCollectableName;
+}
+
+export const updateCollectableDescription = async (collectableId, collectableDescription, token) => {
+  const changeCollectableDescription = await axios.put(
+    `${process.env.NEXT_PUBLIC_API_HOST}/collectable/updateCollectableDescription/${collectableId}`,
+    {description: collectableDescription},
+    {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return changeCollectableDescription;
+}
+
+export const updateCollectableValue = async (collectableId, collectableValue, token) => {
+  const changeCollectableValue = await axios.put(
+    `${process.env.NEXT_PUBLIC_API_HOST}/collectable/updateCollectableValue/${collectableId}`,
+    {value: collectableValue},
+    {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return changeCollectableValue;
+}
+
+// Items
+export const getAllItems = async (token, filter, skip, take, search) => {
+  const items = await axios.get(`${process.env.NEXT_PUBLIC_API_HOST}/item`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    params: { filter: filter, skip: skip, take: take, search: search },
+  });
+  return items.data;
+};
+
+export const searchItemByName = async (token, search) => {
+  const item = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_HOST}/item/searchItemByName`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: { search: search },
+    }
+  );
+  return item.data;
+};
+
+export const updateItemPrice = async (itemId, itemPrice, token) => {
+  const changeItemPrice = await axios.put(
+    `${process.env.NEXT_PUBLIC_API_HOST}/item/updateItemPrice/${itemId}`,
+    {price: itemPrice},
+    {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return changeItemPrice;
+}
+
+
 
 // auth
 export const login = async (username, password) => {

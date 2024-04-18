@@ -33,6 +33,9 @@ export const UsersTable = (props) => {
     selected = [],
     setToggleActivityModal,
     setUserActivityStatus,
+    setUserRoleModal,
+    setUserBalanceModal,
+    setUserTagModal,
   } = props;
 
   const selectedSome = selected.length > 0 && selected.length < items.length;
@@ -42,6 +45,24 @@ export const UsersTable = (props) => {
     if (selected.length == 1) {
       setUserActivityStatus(isActive);
       setToggleActivityModal(true);
+    }
+  };
+
+  const changeUserRole = () => {
+    if (selected.length == 1) {
+      setUserRoleModal(true);
+    }
+  };
+
+  const changeUserBalance = () => {
+    if (selected.length == 1) {
+      setUserBalanceModal(true);
+    }
+  };
+
+  const changeUserTag = () => {
+    if (selected.length == 1) {
+      setUserTagModal(true);
     }
   };
 
@@ -99,9 +120,11 @@ export const UsersTable = (props) => {
                     </Stack>
                   </TableCell>
                   <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.tag}</TableCell>
-                  <TableCell>{user.balance}</TableCell>
-                  <TableCell>{user.role ? user.role.roleName : ""}</TableCell>
+                  <TableCell onClick={() => changeUserTag()}>{user.tag}</TableCell>
+                  <TableCell onClick={() => changeUserBalance()}>{user.balance}</TableCell>
+                  <TableCell onClick={() => changeUserRole()}>
+                    {user.role ? user.role.roleName : ""}
+                  </TableCell>
                   <TableCell onClick={() => toggleIsActive(user.isActive)}>
                     {user.isActive ? "Yes" : "No"}
                   </TableCell>
